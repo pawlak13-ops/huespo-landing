@@ -1,0 +1,27 @@
+---
+// Prosta strona pomocnicza („dziękujemy”, 404). Nie trafia do Google.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getContent, type Lang } from '../i18n';
+import { LANG_PATHS } from '../config/seo';
+
+interface Props { lang: Lang; kind: 'thanks' | 'notFound'; path: string }
+const { lang, kind, path } = Astro.props;
+const c = getContent(lang);
+const t = c[kind];
+---
+<BaseLayout c={c} lang={lang} title={t.metaTitle} description={t.text} noindex path={path}>
+  <section class="section simple">
+    <div class="container simple-inner">
+      <h1>{t.title}</h1>
+      <p>{t.text}</p>
+      <a class="btn btn--primary" href={LANG_PATHS[lang]}>{t.back}</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .simple { min-height: 60vh; display: flex; align-items: center; }
+  .simple-inner { display: grid; gap: 20px; justify-items: start; max-width: 720px; }
+  h1 { font-size: clamp(34px, 4.6vw, 54px); }
+  p { color: var(--text-muted); max-width: 34em; }
+</style>

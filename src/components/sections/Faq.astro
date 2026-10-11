@@ -1,0 +1,38 @@
+---
+import Icon from '../ui/Icon.astro';
+import type { Content } from '../../i18n/pl';
+interface Props { c: Content }
+const { c } = Astro.props;
+---
+<section class="section section--white" id="faq" aria-labelledby="faq-title">
+  <div class="container faq-grid">
+    <h2 id="faq-title">{c.faq.title}</h2>
+    <div class="faq-list">
+      {c.faq.items.map((item, i) => (
+        <details open={i === 0}>
+          <summary>
+            <h3>{item.q}</h3>
+            <span class="chev"><Icon name="chevron" size={20} /></span>
+          </summary>
+          <p>{item.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq-grid { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: clamp(32px, 6vw, 96px); align-items: start; }
+  .faq-list { border-top: 1px solid var(--brand-border); }
+  details { border-bottom: 1px solid var(--brand-border); }
+  summary {
+    list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 20px;
+    padding: 22px 0; min-height: 44px;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary h3 { font-size: clamp(17px, 1.3vw, 19px); }
+  .chev { flex: none; color: var(--text-muted); transition: transform .2s ease; }
+  details[open] .chev { transform: rotate(180deg); color: var(--brand-orange); }
+  details p { padding: 0 40px 24px 0; color: var(--text-body); max-width: 40em; }
+  @media (max-width: 860px) { .faq-grid { grid-template-columns: 1fr; } }
+</style>

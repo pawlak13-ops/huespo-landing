@@ -1,0 +1,32 @@
+---
+import type { Content } from '../../i18n/pl';
+interface Props { c: Content }
+const { c } = Astro.props;
+---
+<section class="section section--beige" aria-labelledby="audience-title">
+  <div class="container">
+    <div class="section-head">
+      <h2 id="audience-title">{c.audience.title}</h2>
+    </div>
+    <ul class="audience" role="list">
+      {c.audience.items.map((a) => (
+        <li class="reveal">
+          <h3>{a.title}</h3>
+          <p>{a.text}</p>
+          <a href="#cennik">{a.plan}</a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .audience { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(24px, 4vw, 48px); }
+  .audience li { border-top: 2px solid var(--text-heading); padding-top: 24px; display: flex; flex-direction: column; }
+  .audience p { margin-top: 10px; color: var(--text-body); flex: 1; }
+  .audience a {
+    margin-top: 18px; align-self: flex-start; font-size: 15px; color: var(--text-heading);
+    text-decoration-color: var(--brand-orange); text-underline-offset: 4px; text-decoration-thickness: 2px;
+  }
+  @media (max-width: 820px) { .audience { grid-template-columns: 1fr; } }
+</style>

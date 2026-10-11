@@ -1,0 +1,78 @@
+---
+import { LANGS, LANG_LABELS, type Lang } from '../i18n';
+import type { Content } from '../i18n/pl';
+import { LANG_PATHS } from '../config/seo';
+import { LINKS } from '../config/links';
+
+interface Props { c: Content; lang: Lang }
+const { c, lang } = Astro.props;
+const home = LANG_PATHS[lang];
+---
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <img src="/logo-wordmark.svg" alt="Huespo" width="172" height="47" loading="lazy" />
+      <p>{c.footer.description}</p>
+    </div>
+
+    <nav aria-label={c.footer.product}>
+      <h2 class="footer-title">{c.footer.product}</h2>
+      <ul>
+        <li><a href={`${home}#jak-to-dziala`}>{c.nav.how}</a></li>
+        <li><a href={`${home}#funkcje`}>{c.nav.features}</a></li>
+        <li><a href={`${home}#cennik`}>{c.nav.pricing}</a></li>
+        <li><a href={`${home}#faq`}>{c.nav.faq}</a></li>
+      </ul>
+    </nav>
+
+    <nav aria-label={c.footer.legal}>
+      <h2 class="footer-title">{c.footer.legal}</h2>
+      <ul>
+        <li><a href={LINKS.terms}>{c.footer.terms}</a></li>
+        <li><a href={LINKS.privacy}>{c.footer.privacy}</a></li>
+        <li><a href={`mailto:${LINKS.email}`}>{c.footer.contact}</a></li>
+      </ul>
+    </nav>
+
+    <div>
+      <h2 class="footer-title">{c.footer.contact}</h2>
+      <address>
+        {c.footer.company}<br />
+        {c.footer.location}<br />
+        <a href={`mailto:${LINKS.email}`}>{LINKS.email}</a>
+      </address>
+    </div>
+  </div>
+
+  <div class="container footer-bottom">
+    <span>{c.footer.copyright}</span>
+    {LANGS.length > 1 && (
+      <ul class="footer-langs" aria-label={c.nav.languages}>
+        {LANGS.map((l) => (
+          <li><a href={LANG_PATHS[l]} hreflang={l} lang={l} aria-current={l === lang ? 'true' : undefined}>{LANG_LABELS[l]}</a></li>
+        ))}
+      </ul>
+    )}
+  </div>
+</footer>
+
+<style>
+  .site-footer { background: var(--white); border-top: 1px solid var(--brand-border); padding: 64px 0 28px; font-size: 15px; }
+  .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.3fr; gap: 40px; }
+  .footer-brand img { height: 40px; width: auto; }
+  .footer-brand p { margin-top: 14px; color: var(--text-muted); max-width: 260px; }
+  .footer-title { font-family: var(--font-body); font-size: 14px; font-weight: 500; letter-spacing: 0; color: var(--text-heading); margin-bottom: 14px; }
+  ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+  a { color: var(--text-muted); text-decoration: none; }
+  a:hover { color: var(--text-heading); text-decoration: underline; }
+  address { font-style: normal; color: var(--text-muted); line-height: 1.8; }
+  .footer-bottom {
+    margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--brand-beige);
+    display: flex; justify-content: space-between; align-items: center; gap: 16px;
+    color: var(--text-muted); font-size: 14px;
+  }
+  .footer-langs { display: flex; gap: 14px; }
+  .footer-langs a[aria-current='true'] { color: var(--text-heading); }
+  @media (max-width: 860px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 520px) { .footer-grid { grid-template-columns: 1fr; gap: 32px; } }
+</style>

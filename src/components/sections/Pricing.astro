@@ -1,0 +1,159 @@
+---
+import { Picture } from 'astro:assets';
+import compactBg from '../../assets/compact-card-bg.jpg';
+import Check from '../ui/Check.astro';
+import type { Content } from '../../i18n/pl';
+import type { Lang } from '../../i18n';
+import { PLANS, CURRENCIES, DEFAULT_CURRENCY, priceParts, formatPrice, yearlySaving } from '../../config/pricing';
+import { registerUrl } from '../../config/links';
+
+interface Props { c: Content; lang: Lang }
+const { c, lang } = Astro.props;
+const t = c.pricing;
+const cur = DEFAULT_CURRENCY[lang];
+
+// Wszystkie warianty cen trafiają do HTML — przełączniki tylko je podmieniają.
+const priceData = (planIdx: number) => {
+  const plan = PLANS[planIdx];
+  const out: Record<string, unknown> = {};
+  for (const cc of CURRENCIES) {
+    out[cc] = {
+      monthly: priceParts(plan.prices[cc].monthly, cc),
+      yearly: priceParts(plan.prices[cc].yearly, cc),
+      saving: formatPrice(yearlySaving(plan, cc), cc),
+    };
+  }
+  return JSON.stringify(out);
+};
+---
+<section
+  class="section pricing"
+  id="cennik"
+  aria-labelledby="pricing-title"
+  data-default-currency={cur}
+  data-lang={lang}
+>
+  <div class="container">
+    <div class="pricing-head">
+      <div>
+        <h2 id="pricing-title">{t.title}</h2>
+        <p class="muted">{t.sub}</p>
+      </div>
+      <div class="pricing-controls">
+        <div class="pill-group" role="group" aria-label={t.cycleLabel}>
+          <button type="button" data-cycle="monthly" aria-pressed="true">{t.monthly}</button>
+          <button type="button" data-cycle="yearly" aria-pressed="false">{t.yearly} <span class="hint">· {t.yearlyHint}</span></button>
+        </div>
+        <div class="pill-group" role="group" aria-label={t.currencyLabel}>
+          {CURRENCIES.map((cc) => (
+            <button type="button" data-currency={cc} aria-pressed={cc === cur ? 'true' : 'false'}>{cc}</button>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div class="plans">
+      {PLANS.map((plan, idx) => {
+        const p = priceParts(plan.prices[cur].monthly, cur);
+        const onDark = plan.variant !== 'light';
+        const btnClass = plan.variant === 'light' ? 'btn--primary' : plan.variant === 'photo' ? 'btn--white' : 'btn--beige';
+        return (
+          <article class:list={['plan', `plan--${plan.variant}`, `plan--${plan.id}`]} aria-labelledby={`plan-${plan.id}`}>
+            {plan.variant === 'photo' && (
+              <div class="plan-bg fill-picture" aria-hidden="true">
+                <Picture src={compactBg} formats={['avif', 'webp']} widths={[360]} alt="" loading="lazy" />
+              </div>
+            )}
+            <div class="plan-inner">
+              <div class="plan-top">
+                <h3 id={`plan-${plan.id}`}>{plan.name}</h3>
+                <div class="plan-price">
+                  <p class="price" data-prices={priceData(idx)}>
+                    <span class="sym" data-part="before">{p.before}</span><span class="num display" data-part="number">{p.number}</span><span class="sym" data-part="after">{p.after}</span>
+                  </p>
+                  <p class="per" data-per-month={t.perMonth} data-per-year={t.perYear}>{t.perMonth}</p>
+                </div>
+              </div>
+              <p class="badge">{t.badges[plan.id]}</p>
+              <ul class="features" role="list">
+                {t.features[plan.id].map((f) => (
+                  <li class:list={{ 'has-check': f.check }}>
+                    {f.check && <Check white={onDark} />}
+                    <span>{f.text}</span>
+                  </li>
+                ))}
+              </ul>
+              <div class="plan-bottom">
+                <p class="saving" data-template={t.saving} hidden></p>
+                <p class="live"><Check white={onDark} /><span>{t.liveUpdate}</span></p>
+                <a
+                  class:list={['btn', btnClass, 'plan-cta']}
+                  href={registerUrl(plan.id, 'monthly', lang)}
+                  data-plan={plan.id}
+                >{t.cta}<span class="visually-hidden"> {plan.name}</span></a>
+              </div>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+
+    <p class="pricing-note">{t.note}</p>
+  </div>
+</section>
+
+<style>
+  .pricing-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 28px; flex-wrap: wrap; margin-bottom: 40px; }
+  .pricing-head p { margin-top: 14px; max-width: 34em; }
+  .pricing-controls { display: flex; gap: 10px; flex-wrap: wrap; }
+  .hint { color: inherit; opacity: .85; }
+
+  .plans { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; align-items: stretch; }
+  .plan {
+    position: relative; overflow: hidden; display: flex;
+    border: 1px solid var(--brand-border); border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card); background: var(--white); color: var(--text-muted);
+  }
+  .plan-inner { position: relative; display: flex; flex-direction: column; width: 100%; padding: 24px 20px 20px; }
+  .plan-bg { position: absolute; inset: 0; }
+  .plan-bg :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: center 70%; }
+  .plan-bg::after { content: ''; position: absolute; inset: 0; background: var(--overlay); }
+
+  .plan--photo, .plan--orange { color: var(--white); }
+  .plan--orange { background: var(--brand-orange); }
+
+  .plan-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+  h3 { font-size: 20px; color: var(--text-heading); padding-top: 6px; }
+  .plan--photo h3, .plan--orange h3 { color: var(--white); }
+  .plan-price { text-align: right; }
+  .price {
+    color: var(--text-heading); white-space: nowrap; line-height: 1;
+    text-shadow: 0 2px 6px rgba(20, 10, 10, 0.14);
+  }
+  .plan--photo .price, .plan--orange .price { color: var(--white); text-shadow: 0 2px 8px rgba(20, 10, 10, 0.25); }
+  .num { font-size: 28px; letter-spacing: -0.02em; }
+  .sym { font-family: var(--font-display); font-size: 21px; /* 75% ceny */ }
+  .per { font-size: 12.5px; margin-top: 6px; }
+
+  .badge {
+    margin-top: 18px; padding-bottom: 12px; border-bottom: 1px solid var(--brand-border);
+    font-family: var(--font-display); font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase;
+  }
+  .plan--photo .badge, .plan--orange .badge { border-bottom-color: rgba(255, 255, 255, 0.6); }
+
+  .features { list-style: none; padding: 0; margin: 14px 0 0; display: grid; gap: 9px; font-size: 14.5px; }
+  .features li { display: flex; align-items: center; gap: 8px; }
+
+  .plan-bottom { margin-top: auto; padding-top: 22px; }
+  .saving { font-size: 13px; margin-bottom: 10px; }
+  .live { display: flex; align-items: center; gap: 8px; font-size: 13.5px; margin-bottom: 14px; }
+  .plan-cta { width: 100%; }
+
+  .pricing-note { margin-top: 28px; font-size: 13.5px; color: var(--text-muted); max-width: 60em; }
+
+  @media (max-width: 1080px) { .plans { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) {
+    .plans { grid-template-columns: 1fr; }
+    .plan--compact { order: -1; }
+  }
+</style>

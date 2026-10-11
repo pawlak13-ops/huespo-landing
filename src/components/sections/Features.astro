@@ -1,0 +1,67 @@
+---
+import Icon from '../ui/Icon.astro';
+import type { Content } from '../../i18n/pl';
+interface Props { c: Content }
+const { c } = Astro.props;
+const f = c.features;
+---
+<section class="section section--white" id="funkcje" aria-labelledby="features-title">
+  <div class="container">
+    <div class="section-head">
+      <h2 id="features-title">{f.title}</h2>
+      <p>{f.intro}</p>
+    </div>
+
+    <div class="bento">
+      <article class="tile tile--lead reveal">
+        <div class="lead-icon"><Icon name="link" size={28} /></div>
+        <h3>{f.lead.title}</h3>
+        <p>{f.lead.text}</p>
+        <div class="fake-url" aria-hidden="true">
+          <span class="dot"></span>app.huespo.app/p/malibu-park
+        </div>
+      </article>
+      {f.items.map((it) => (
+        <article class="tile reveal">
+          <div class="tile-icon"><Icon name={it.icon} /></div>
+          <h3>{it.title}</h3>
+          <p>{it.text}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .bento { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .tile {
+    background: var(--brand-cream); border: 1px solid var(--brand-border); border-radius: var(--radius-card);
+    padding: 26px; box-shadow: var(--shadow-card);
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .tile:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift); }
+  .tile h3 { margin-top: 18px; }
+  .tile p { margin-top: 8px; font-size: 15.5px; color: var(--text-muted); }
+  .tile-icon { color: var(--brand-orange); }
+
+  .tile--lead {
+    grid-column: span 2; background: var(--brand-orange); border-color: var(--brand-orange);
+    color: var(--white); display: flex; flex-direction: column; padding: 32px;
+  }
+  .tile--lead h3 { color: var(--white); font-size: clamp(24px, 2.2vw, 30px); max-width: 16ch; }
+  .tile--lead p { color: rgba(255, 255, 255, 0.92); max-width: 34em; font-size: 16.5px; margin-bottom: 28px; }
+  .lead-icon { color: var(--white); }
+  .fake-url {
+    align-self: flex-start; margin-top: auto;
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--white); color: var(--text-heading); border-radius: 100px;
+    padding: 9px 16px; font-size: 14px;
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #2fae5f; }
+
+  @media (max-width: 900px) { .bento { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) {
+    .bento { grid-template-columns: 1fr; }
+    .tile--lead { grid-column: auto; }
+  }
+</style>

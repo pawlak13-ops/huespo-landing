@@ -1,0 +1,62 @@
+---
+import type { Content } from '../../i18n/pl';
+interface Props { c: Content }
+const { c } = Astro.props;
+---
+<div class="platforms">
+  <div class="container platforms-inner">
+    <span class="muted">{c.platforms.label}</span>
+    <ul>
+      {c.platforms.items.map((p) => <li>{p}</li>)}
+    </ul>
+  </div>
+</div>
+
+<section class="section section--beige problem" aria-labelledby="problem-title">
+  <div class="container problem-grid">
+    <div class="problem-head">
+      <h2 id="problem-title">{c.problem.title}</h2>
+      <p class="problem-closing display">{c.problem.closing}</p>
+    </div>
+    <ol class="chat" role="list">
+      {c.problem.items.map((m, i) => (
+        <li class="chat-item reveal" style={`--i:${i}`}>
+          <p class="bubble">
+            <span class="bubble-text">{m.q}</span>
+            <time class="bubble-time">{m.time}</time>
+          </p>
+          <p class="bubble-cost">{m.cost}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .platforms { border-top: 1px solid var(--brand-border); border-bottom: 1px solid var(--brand-border); padding: 20px 0; }
+  .platforms-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 20px; font-size: 15px; }
+  .platforms ul { list-style: none; display: flex; flex-wrap: wrap; gap: 8px 22px; padding: 0; margin: 0; }
+  .platforms li { font-family: var(--font-display); color: var(--text-heading); }
+
+  .problem-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(40px, 6vw, 96px); align-items: start; }
+  .problem-head { position: sticky; top: 120px; }
+  .problem-closing { margin-top: 28px; font-size: clamp(24px, 2vw, 28px); line-height: 1.25; color: var(--accent-text); max-width: 18em; }
+
+  .chat { list-style: none; padding: 0; margin: 0; display: grid; gap: 28px; }
+  .chat-item:nth-child(2) { margin-left: clamp(0px, 4vw, 56px); }
+  .chat-item:nth-child(3) { margin-left: clamp(0px, 2vw, 28px); }
+  .bubble {
+    position: relative; display: inline-flex; align-items: flex-end; gap: 14px;
+    background: var(--white); border: 1px solid var(--brand-border);
+    border-radius: 18px 18px 18px 4px; padding: 14px 18px; box-shadow: var(--shadow-card);
+    font-size: clamp(17px, 1.3vw, 20px); color: var(--text-heading);
+  }
+  .bubble-time { font-size: 12px; color: var(--text-muted); white-space: nowrap; }
+  .bubble-cost { margin-top: 10px; color: var(--text-muted); font-size: 15.5px; max-width: 30em; padding-left: 4px; }
+
+  @media (max-width: 860px) {
+    .problem-grid { grid-template-columns: 1fr; }
+    .problem-head { position: static; }
+    .chat-item:nth-child(n) { margin-left: 0; }
+  }
+</style>

@@ -1,0 +1,101 @@
+---
+import { Picture } from 'astro:assets';
+import heroImage from '../../assets/hero-light.jpg';
+import type { Content } from '../../i18n/pl';
+
+interface Props { c: Content }
+const { c } = Astro.props;
+const h = c.hero;
+---
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <p class="hero-eyebrow">{h.eyebrow}</p>
+      <h1>
+        {h.titleBefore}<span class="accent">{h.titleHighlight}</span>{h.titleAfter}
+      </h1>
+      <p class="hero-sub">{h.sub}</p>
+      <div class="hero-ctas">
+        <a class="btn btn--primary" href="#cennik">{h.ctaPrimary}</a>
+        <a class="btn btn--outline" href="#jak-to-dziala">{h.ctaSecondary}</a>
+      </div>
+      <p class="hero-micro">{h.micro}</p>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-frame fill-picture">
+        <Picture
+          src={heroImage}
+          formats={['avif', 'webp']}
+          widths={[480, 768, 1100]}
+          sizes="(max-width: 900px) 92vw, 520px"
+          alt={h.imageAlt}
+          loading="eager"
+          fetchpriority="high"
+          class="hero-img"
+        />
+      </div>
+
+      <div class="guest-card" aria-hidden="true">
+        <p class="gc-label">{h.card.label}</p>
+        <p class="gc-name display">{h.card.name}</p>
+        <p class="gc-addr">{h.card.address}</p>
+        <div class="gc-rows">
+          <div class="gc-row"><span class="gc-k">{h.card.door}</span><span class="gc-v">3457</span><span class="gc-copy">{h.card.copy}</span></div>
+          <div class="gc-row"><span class="gc-k">{h.card.wifi}</span><span class="gc-v">MalibuPark_5G</span><span class="gc-copy">{h.card.copy}</span></div>
+          <div class="gc-row"><span class="gc-k">{h.card.checkout}</span><span class="gc-v">{h.card.checkoutValue}</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero { padding: clamp(40px, 7vw, 96px) 0 clamp(56px, 8vw, 104px); overflow: hidden; }
+  .hero-grid { display: grid; grid-template-columns: 1.08fr 0.92fr; gap: clamp(40px, 6vw, 80px); align-items: center; }
+  .hero-eyebrow { color: var(--text-muted); font-size: 15px; margin-bottom: 20px; }
+  h1 { max-width: 13ch; }
+  .hero-sub { margin-top: 24px; max-width: 34em; font-size: clamp(17px, 1.2vw + 10px, 20px); color: var(--text-body); }
+  .hero-ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
+  .hero-micro { margin-top: 16px; font-size: 14px; color: var(--text-muted); }
+
+  .hero-visual { position: relative; padding: 0 0 48px 48px; }
+  .hero-frame {
+    aspect-ratio: 4 / 5; border-radius: var(--radius-frame); overflow: hidden;
+    border: 1px solid var(--brand-border); box-shadow: var(--shadow-card);
+    background: var(--brand-orange);
+  }
+  .hero-frame :global(img) { width: 100%; height: 100%; object-fit: cover; }
+
+  .guest-card {
+    position: absolute; left: 0; bottom: 0; width: min(330px, 82%);
+    background: var(--white); border: 1px solid var(--brand-border); border-radius: var(--radius-card);
+    box-shadow: var(--shadow-lift); padding: 22px 22px 14px;
+  }
+  .gc-label { font-size: 13px; color: var(--text-muted); }
+  .gc-name { font-size: 24px; color: var(--text-heading); margin-top: 4px; line-height: 1.15; }
+  .gc-addr { font-size: 13.5px; color: var(--text-muted); margin-top: 4px; }
+  .gc-rows { margin: 16px 0 0; }
+  .gc-row {
+    display: grid; grid-template-columns: 1fr auto; grid-template-areas: 'dt copy' 'dd copy';
+    align-items: center; padding: 11px 0; border-top: 1px solid var(--brand-beige);
+  }
+  .gc-k { grid-area: dt; font-size: 12.5px; color: var(--text-muted); }
+  .gc-v { grid-area: dd; margin: 0; font-family: var(--font-display); font-size: 17px; color: var(--text-heading); }
+  .gc-copy {
+    grid-area: copy; font-size: 12.5px; color: var(--text-heading);
+    border: 1px solid var(--brand-border); border-radius: 100px; padding: 4px 12px;
+  }
+
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    h1 { max-width: 15ch; }
+    .hero-visual { max-width: 520px; padding: 0 0 40px 24px; }
+    .hero-frame { aspect-ratio: 5 / 4; }
+  }
+  @media (max-width: 480px) {
+    .hero-ctas .btn { width: 100%; }
+    .hero-visual { padding: 0 0 32px 12px; }
+    .guest-card { width: 86%; padding: 18px 18px 10px; }
+  }
+</style>

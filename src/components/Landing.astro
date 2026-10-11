@@ -1,0 +1,87 @@
+---
+// Cała strona główna — wspólna dla PL / ES / EN. Każda wersja językowa
+// różni się tylko treścią z src/i18n/<język>.ts.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from './sections/Hero.astro';
+import Problem from './sections/Problem.astro';
+import How from './sections/How.astro';
+import Features from './sections/Features.astro';
+import Preview from './sections/Preview.astro';
+import Audience from './sections/Audience.astro';
+import Pricing from './sections/Pricing.astro';
+import Faq from './sections/Faq.astro';
+import ContactForm from './sections/ContactForm.astro';
+import FinalCta from './sections/FinalCta.astro';
+import { getContent, type Lang } from '../i18n';
+import { SITE_URL, LANG_PATHS } from '../config/seo';
+import { LINKS } from '../config/links';
+import { PLANS, DEFAULT_CURRENCY } from '../config/pricing';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const c = getContent(lang);
+const pageUrl = new URL(LANG_PATHS[lang], SITE_URL).href;
+const currency = DEFAULT_CURRENCY[lang];
+
+// Dane strukturalne (schema.org) — generowane z tych samych plików co strona.
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': `${SITE_URL}/#organization`,
+    name: 'Huespo',
+    url: SITE_URL,
+    logo: `${SITE_URL}/favicon.png`,
+    email: LINKS.email,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${SITE_URL}/#website`,
+    name: 'Huespo',
+    url: SITE_URL,
+    inLanguage: c.htmlLang,
+    publisher: { '@id': `${SITE_URL}/#organization` },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'Huespo',
+    url: pageUrl,
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Web',
+    inLanguage: c.htmlLang,
+    description: c.meta.appDescription,
+    publisher: { '@id': `${SITE_URL}/#organization` },
+    offers: PLANS.map((p) => ({
+      '@type': 'Offer',
+      name: `Huespo ${p.name}`,
+      price: p.prices[currency].monthly.toFixed(2),
+      priceCurrency: currency,
+      url: `${pageUrl}#cennik`,
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    inLanguage: c.htmlLang,
+    mainEntity: c.faq.items.map((q) => ({
+      '@type': 'Question',
+      name: q.q,
+      acceptedAnswer: { '@type': 'Answer', text: q.a },
+    })),
+  },
+];
+---
+<BaseLayout c={c} lang={lang} title={c.meta.title} path={LANG_PATHS[lang]} jsonLd={jsonLd}>
+  <Hero c={c} />
+  <Problem c={c} />
+  <How c={c} />
+  <Features c={c} />
+  <Preview c={c} />
+  <Audience c={c} />
+  <Pricing c={c} lang={lang} />
+  <Faq c={c} />
+  <ContactForm c={c} lang={lang} />
+  <FinalCta c={c} />
+</BaseLayout>

@@ -1,0 +1,25 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Długie cache dla plików z hashem w nazwie (CSS, JS, obrazy, fonty).
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Jeden adres strony: www.huespo.app → huespo.app
+[[redirects]]
+  from = "https://www.huespo.app/*"
+  to = "https://huespo.app/:splat"
+  status = 301
+  force = true
