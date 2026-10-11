@@ -47,7 +47,7 @@ export const pl = {
     ctaPrimary: 'Wypróbuj 14 dni za darmo',
     ctaSecondary: 'Zobacz, jak to działa',
     micro: 'Bez umowy. Anulujesz w panelu jednym kliknięciem.',
-    imageAlt: 'Ciepłe, rozmyte światło w kolorach marki Huespo',
+    imageAlt: 'Podróżny z plecakiem sprawdza na telefonie przewodnik po apartamencie',
     card: {
       label: 'Twój pobyt',
       name: 'Malibu Park',
@@ -125,20 +125,10 @@ export const pl = {
 
   preview: {
     title: 'To widzi Twój gość',
-    text: 'Przewodnik ma nazwę Twojego obiektu i układa się w zakładki, które gość zna z dobrych hoteli.',
-    tabs: ['Witaj', 'Przyjazd', 'Dostęp i WiFi', 'Okolica', 'Pomoc'],
-    activeTab: 2,
-    name: 'Malibu Park',
-    address: 'Calle Italia 10, 38670 Adeje',
-    mapLink: 'Otwórz w mapach',
-    rows: [
-      { label: 'Kod do drzwi', value: '3457', copy: true },
-      { label: 'Sieć WiFi', value: 'MalibuPark_5G', copy: true },
-      { label: 'Hasło WiFi', value: 'sol-y-playa-24', copy: true },
-      { label: 'Zameldowanie / wymeldowanie', value: '16:00 / 12:00', copy: false },
-    ],
-    copy: 'Kopiuj',
-    note: 'Przykładowe dane obiektu.',
+    text: 'Prawdziwy przewodnik z Huespo, otwarty na telefonie gościa. Sekcje układasz sam, pod swój obiekt, na przykład:',
+    tabs: ['Powitanie', 'Przewodnik przyjazdu', 'Parking', 'Odpady', 'Dostęp i WiFi', 'Okolica'],
+    imageAlt: 'Przewodnik Huespo dla apartamentu Parque Royal 219 na ekranie telefonu: zakładki, nazwa, adres i zdjęcie obiektu',
+    note: 'Prawdziwy przewodnik z aplikacji Huespo.',
   },
 
   audience: {

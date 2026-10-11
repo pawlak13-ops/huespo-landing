@@ -42,7 +42,7 @@ export const en: Content = {
     ctaPrimary: 'Try 14 days free',
     ctaSecondary: 'See how it works',
     micro: 'No contract. Cancel from your dashboard in one click.',
-    imageAlt: 'Warm, blurred light in Huespo brand colours',
+    imageAlt: 'Traveller with a backpack checking the apartment guide on his phone',
     card: {
       label: 'Your stay',
       name: 'Malibu Park',
@@ -120,20 +120,10 @@ export const en: Content = {
 
   preview: {
     title: 'This is what your guest sees',
-    text: 'The guide carries your property name and is organised into tabs, just like a good hotel.',
-    tabs: ['Welcome', 'Arrival', 'Access & WiFi', 'Local guide', 'Help'],
-    activeTab: 2,
-    name: 'Malibu Park',
-    address: 'Calle Italia 10, 38670 Adeje',
-    mapLink: 'Open in maps',
-    rows: [
-      { label: 'Door code', value: '3457', copy: true },
-      { label: 'WiFi network', value: 'MalibuPark_5G', copy: true },
-      { label: 'WiFi password', value: 'sol-y-playa-24', copy: true },
-      { label: 'Check-in / check-out', value: '16:00 / 12:00', copy: false },
-    ],
-    copy: 'Copy',
-    note: 'Sample property details.',
+    text: 'A real Huespo guide, open on a guest’s phone. You arrange the sections to suit your property, for example:',
+    tabs: ['Welcome', 'Arrival guide', 'Parking', 'Bins & recycling', 'Access & WiFi', 'Local area'],
+    imageAlt: 'Huespo guide for the Parque Royal 219 apartment on a phone screen: tabs, name, address and property photo',
+    note: 'A real guide from the Huespo app.',
   },
 
   audience: {

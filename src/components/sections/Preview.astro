@@ -1,5 +1,6 @@
 ---
-import Icon from '../ui/Icon.astro';
+import { Picture } from 'astro:assets';
+import guestScreenshot from '../../assets/guest-page-screenshot.jpg';
 import type { Content } from '../../i18n/pl';
 interface Props { c: Content }
 const { c } = Astro.props;
@@ -17,29 +18,14 @@ const p = c.preview;
 
     <figure class="phone reveal">
       <div class="phone-screen">
-        <div class="ph-tabs" aria-hidden="true">
-          {p.tabs.map((t, i) => <span class:list={['ph-tab', { active: i === p.activeTab }]}>{t}</span>)}
-        </div>
-        <div class="ph-body">
-          <p class="ph-name display">{p.name}</p>
-          <p class="ph-addr">{p.address}</p>
-          <span class="ph-map"><Icon name="map" size={14} />{p.mapLink}</span>
-          <ul class="ph-rows" role="list">
-            {p.rows.map((r) => (
-              <li class="ph-row">
-                <div>
-                  <span class="ph-k">{r.label}</span>
-                  <span class="ph-v">{r.value}</span>
-                </div>
-                {r.copy && (
-                  <button type="button" class="ph-copy" data-copy={r.value} aria-label={`${p.copy}: ${r.label}`}>
-                    {p.copy}
-                  </button>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
+        <Picture
+          src={guestScreenshot}
+          formats={['avif', 'webp']}
+          widths={[375, 750]}
+          sizes="(max-width: 420px) 86vw, 340px"
+          alt={p.imageAlt}
+          loading="lazy"
+        />
       </div>
       <figcaption class="ph-note">{p.note}</figcaption>
     </figure>
@@ -49,40 +35,16 @@ const p = c.preview;
 <style>
   .preview-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(40px, 6vw, 96px); align-items: center; }
   .preview-copy p { margin-top: 18px; max-width: 30em; }
-  .preview-tabs-list { list-style: none; padding: 0; margin: 28px 0 0; display: flex; flex-wrap: wrap; gap: 8px; }
-  .preview-tabs-list li { border: 1px solid var(--brand-border); border-radius: 100px; padding: 6px 14px; font-size: 14px; color: var(--text-heading); }
+  .preview-tabs-list { list-style: none; padding: 0; margin: 24px 0 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .preview-tabs-list li { border: 1px solid var(--brand-border); border-radius: 100px; padding: 6px 14px; font-size: 14px; color: var(--text-heading); background: var(--white); }
 
-  .phone { margin: 0 auto; width: min(360px, 100%); min-width: 0; }
-  .phone-screen { min-width: 0; }
+  .phone { margin: 0 auto; width: min(340px, 100%); min-width: 0; }
   .phone-screen {
-    border: 1px solid var(--brand-border); border-radius: 36px; background: var(--white);
-    padding: 18px 14px 22px; box-shadow: var(--shadow-lift);
-    position: relative;
+    border: 10px solid var(--text-heading); border-radius: 44px; overflow: hidden;
+    background: var(--brand-cream); box-shadow: var(--shadow-lift);
+    aspect-ratio: 750 / 1300;
   }
-  .phone-screen::before {
-    content: ''; display: block; width: 92px; height: 6px; border-radius: 6px; background: var(--brand-beige);
-    margin: 0 auto 16px;
-  }
-  .ph-tabs { display: flex; gap: 6px; overflow: hidden; padding: 0 4px 14px; border-bottom: 1px solid var(--brand-beige); mask-image: linear-gradient(90deg, #000 80%, transparent); }
-  .ph-tab { flex: none; font-size: 12px; padding: 6px 11px; border-radius: 100px; color: var(--text-muted); white-space: nowrap; }
-  .ph-tab.active { background: var(--brand-orange); color: var(--white); }
-  .ph-body { padding: 18px 6px 0; }
-  .ph-name { font-size: 24px; color: var(--text-heading); }
-  .ph-addr { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
-  .ph-map { display: inline-flex; align-items: center; gap: 5px; margin-top: 8px; font-size: 13px; color: var(--accent-text); }
-  .ph-rows { list-style: none; padding: 0; margin: 18px 0 0; display: grid; gap: 8px; }
-  .ph-row {
-    display: flex; justify-content: space-between; align-items: center; gap: 10px;
-    background: var(--brand-cream); border: 1px solid var(--brand-beige); border-radius: 12px; padding: 11px 14px;
-  }
-  .ph-k { display: block; font-size: 11.5px; color: var(--text-muted); }
-  .ph-v { display: block; margin: 2px 0 0; font-family: var(--font-display); font-size: 16px; color: var(--text-heading); word-break: break-all; }
-  .ph-copy {
-    flex: none; cursor: pointer; background: var(--white); border: 1px solid var(--brand-border);
-    border-radius: 100px; padding: 5px 12px; font-size: 12.5px; color: var(--text-heading);
-    min-height: 32px;
-  }
-  .ph-copy.copied { background: var(--brand-orange); border-color: var(--brand-orange); color: var(--white); }
+  .phone-screen :global(picture), .phone-screen :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
   .ph-note { text-align: center; margin-top: 14px; font-size: 13px; color: var(--text-muted); }
 
   @media (max-width: 860px) { .preview-grid { grid-template-columns: minmax(0, 1fr); } }

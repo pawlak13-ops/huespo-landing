@@ -42,7 +42,7 @@ export const es: Content = {
     ctaPrimary: 'Prueba 14 días gratis',
     ctaSecondary: 'Ver cómo funciona',
     micro: 'Sin permanencia. Cancelas desde el panel con un clic.',
-    imageAlt: 'Luz cálida y difuminada en los colores de Huespo',
+    imageAlt: 'Viajero con mochila consultando en el móvil la guía del apartamento',
     card: {
       label: 'Tu estancia',
       name: 'Malibu Park',
@@ -120,20 +120,10 @@ export const es: Content = {
 
   preview: {
     title: 'Esto es lo que ve tu huésped',
-    text: 'La guía lleva el nombre de tu alojamiento y se organiza en pestañas, como en un buen hotel.',
-    tabs: ['Bienvenida', 'Llegada', 'Acceso y WiFi', 'Zona', 'Ayuda'],
-    activeTab: 2,
-    name: 'Malibu Park',
-    address: 'Calle Italia 10, 38670 Adeje',
-    mapLink: 'Abrir en mapas',
-    rows: [
-      { label: 'Código de la puerta', value: '3457', copy: true },
-      { label: 'Red WiFi', value: 'MalibuPark_5G', copy: true },
-      { label: 'Contraseña WiFi', value: 'sol-y-playa-24', copy: true },
-      { label: 'Entrada / salida', value: '16:00 / 12:00', copy: false },
-    ],
-    copy: 'Copiar',
-    note: 'Datos de ejemplo.',
+    text: 'Una guía real de Huespo, abierta en el móvil del huésped. Las secciones las organizas tú según tu alojamiento, por ejemplo:',
+    tabs: ['Bienvenida', 'Cómo llegar', 'Aparcamiento', 'Basura y reciclaje', 'Acceso y WiFi', 'La zona'],
+    imageAlt: 'Guía de Huespo del apartamento Parque Royal 219 en la pantalla de un móvil: pestañas, nombre, dirección y foto del alojamiento',
+    note: 'Una guía real de la app Huespo.',
   },
 
   audience: {
