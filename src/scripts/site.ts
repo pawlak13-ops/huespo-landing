@@ -13,6 +13,12 @@ const store = {
   },
 };
 
+/* ---------- Ręczny wybór języka: zapamiętujemy go, żeby strona nie przełączała sama ---------- */
+document.addEventListener('click', (e) => {
+  const a = (e.target as HTMLElement | null)?.closest<HTMLAnchorElement>('.lang-switch a, #lang-offer a');
+  if (a?.lang) store.set('huespo-lang', a.lang);
+});
+
 /* ---------- Nagłówek: linia po przewinięciu ---------- */
 const header = document.getElementById('site-header');
 const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 8);

@@ -37,6 +37,34 @@ const langOffers = Object.fromEntries(
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {path === '/' && (
+      <!-- Pierwsze wejście na huespo.app: otwórz wersję w języku urządzenia
+           (a gdy go nie mamy — wg strefy czasowej). Ręczny wybór z przełącznika wygrywa zawsze. -->
+      <script is:inline define:vars={{ paths: LANG_PATHS }}>
+        (function () {
+          try {
+            if (/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent)) return;
+            var lang = null;
+            try { lang = localStorage.getItem('huespo-lang'); } catch (e) {}
+            if (!lang || !paths[lang]) {
+              lang = null;
+              var list = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ''];
+              for (var i = 0; i < list.length && !lang; i++) {
+                var code = String(list[i] || '').slice(0, 2).toLowerCase();
+                if (paths[code]) lang = code;
+              }
+              if (!lang) {
+                var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+                if (tz === 'Europe/Warsaw') lang = 'pl';
+                else if (/^(Europe\/Madrid|Atlantic\/Canary|Africa\/Ceuta)$/.test(tz)) lang = 'es';
+                else lang = 'en';
+              }
+            }
+            if (paths[lang] !== '/') location.replace(paths[lang] + location.search + location.hash);
+          } catch (e) {}
+        })();
+      </script>
+    )}
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="preload" href={soraLatin} as="font" type="font/woff2" crossorigin />
