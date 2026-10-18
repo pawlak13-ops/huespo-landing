@@ -46,7 +46,7 @@ body {
   background: var(--cream);
   color: var(--ink);
   font-family: var(--font-body);
-  font-size: clamp(16px, 0.6vw + 13px, 18px);
+  font-size: clamp(16px, 1.05vw + 12px, 18px);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -59,12 +59,12 @@ h1, h2, h3, .display {
   font-family: var(--font-display);
   font-weight: 400;
   line-height: 1.1;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.02em;
   margin: 0;
   text-wrap: balance;
 }
-h1 { font-size: clamp(38px, 5vw, 66px); letter-spacing: -0.035em; }
-h2 { font-size: clamp(30px, 3.6vw, 48px); }
+h1 { font-size: clamp(38px, 5.4vw, 66px); letter-spacing: -0.035em; }
+h2 { font-size: clamp(28px, 3.4vw, 42px); letter-spacing: -0.025em; }
 h3 { font-size: clamp(18px, 1.4vw, 21px); line-height: 1.25; letter-spacing: -0.01em; }
 p { margin: 0; text-wrap: pretty; }
 

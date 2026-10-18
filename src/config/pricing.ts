@@ -16,11 +16,20 @@ export interface Plan {
   name: string;
   variant: CardVariant;
   prices: Record<Currency, { monthly: number; yearly: number }>;
+  /** Limity i funkcje — takie same jak w aplikacji (src/routes/_authenticated/pricing.tsx). */
+  objects: number;
+  languages: number;
+  localRecs: number;
+  qr: boolean;
+  ownLogo: boolean;
+  sorting: boolean;
+  support24: boolean;
 }
 
 export const PLANS: Plan[] = [
   {
     id: 'single',
+    objects: 1, languages: 1, localRecs: 1, qr: false, ownLogo: false, sorting: false, support24: false,
     name: 'Single',
     variant: 'light',
     prices: {
@@ -31,6 +40,7 @@ export const PLANS: Plan[] = [
   },
   {
     id: 'compact',
+    objects: 10, languages: 6, localRecs: 4, qr: true, ownLogo: false, sorting: false, support24: false,
     name: 'Compact',
     variant: 'photo',
     prices: {
@@ -41,6 +51,7 @@ export const PLANS: Plan[] = [
   },
   {
     id: 'premium',
+    objects: 30, languages: 6, localRecs: 12, qr: true, ownLogo: true, sorting: true, support24: false,
     name: 'Premium',
     variant: 'light',
     prices: {
@@ -51,6 +62,7 @@ export const PLANS: Plan[] = [
   },
   {
     id: 'pro',
+    objects: 100, languages: 6, localRecs: 40, qr: true, ownLogo: true, sorting: true, support24: true,
     name: 'PRO',
     variant: 'orange',
     prices: {

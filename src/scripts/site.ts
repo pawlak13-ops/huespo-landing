@@ -1,8 +1,7 @@
 // Drobna interaktywność strony. Bez tego skryptu strona nadal działa
 // (ceny, FAQ i formularz są w zwykłym HTML) — skrypt tylko ją uprzyjemnia.
 
-type Parts = { before: string; number: string; after: string };
-type PlanPrices = Record<string, { monthly: Parts; yearly: Parts; saving: string }>;
+type PlanPrices = Record<string, { monthly: string; yearly: string }>;
 
 const store = {
   get(key: string) {
@@ -101,18 +100,10 @@ if (pricing) {
       const data = JSON.parse(priceEl.dataset.prices ?? '{}') as PlanPrices;
       const entry = data[currency];
       if (!entry) return;
-      const parts = entry[cycle];
       const num = priceEl.querySelector<HTMLElement>('[data-part="number"]');
-      if (num) num.textContent = parts.number;
+      if (num) num.textContent = entry[cycle];
       const code = priceEl.querySelector<HTMLElement>('[data-part="code"]');
-      if (code) code.textContent = currency === 'GBP' ? '£' : currency === 'EUR' ? '€' : 'PLN';
-      const per = card.querySelector<HTMLElement>('.per');
-      if (per) per.textContent = (cycle === 'monthly' ? per.dataset.perMonth : per.dataset.perYear) ?? '';
-      const saving = card.querySelector<HTMLElement>('.saving');
-      if (saving) {
-        saving.hidden = cycle !== 'yearly';
-        saving.textContent = (saving.dataset.template ?? '').replace('{amount}', entry.saving);
-      }
+      if (code) code.textContent = currency;
       const cta = card.querySelector<HTMLAnchorElement>('.plan-cta');
       if (cta) {
         const url = new URL(cta.href);

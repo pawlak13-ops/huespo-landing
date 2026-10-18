@@ -1,9 +1,9 @@
 ---
-import { Picture } from 'astro:assets';
-import compactBg from '../../assets/bg-violet.jpg';
+// Cennik — odwzorowanie 1:1 strony „Wybierz plan” z aplikacji (app.huespo.app/pricing).
+// Wymiary, kolory i kolejność pozycji jak w src/routes/_authenticated/pricing.tsx w huespo-hq.
 import type { Content } from '../../i18n/pl';
 import type { Lang } from '../../i18n';
-import { PLANS, CURRENCIES, DEFAULT_CURRENCY, priceParts, formatPrice, yearlySaving } from '../../config/pricing';
+import { PLANS, CURRENCIES, DEFAULT_CURRENCY } from '../../config/pricing';
 import { registerUrl } from '../../config/links';
 
 interface Props { c: Content; lang: Lang }
@@ -14,20 +14,17 @@ const cur = DEFAULT_CURRENCY[lang];
 const lockCurrency = lang === 'pl';
 const currencies = lockCurrency ? [cur] : CURRENCIES.filter((cc) => cc !== 'PLN');
 
-// Wszystkie warianty cen trafiają do HTML — przełączniki tylko je podmieniają.
-const priceData = (planIdx: number) => {
-  const plan = PLANS[planIdx];
-  const out: Record<string, unknown> = {};
-  for (const cc of CURRENCIES) {
-    out[cc] = {
-      monthly: priceParts(plan.prices[cc].monthly, cc),
-      yearly: priceParts(plan.prices[cc].yearly, cc),
-      saving: formatPrice(yearlySaving(plan, cc), cc),
-    };
-  }
-  return JSON.stringify(out);
+const fmt = (n: number) => n.toFixed(2).replace('.', ',');
+// Odmiana jak w aplikacji: 1 Obiekt / 4 Obiekty / 10 Obiektów
+const count = (forms: { one: string; few: string; many: string }, n: number) => {
+  if (n === 1) return forms.one;
+  const last = n % 10, lastTwo = n % 100;
+  if (last >= 2 && last <= 4 && (lastTwo < 12 || lastTwo > 14)) return forms.few;
+  return forms.many;
 };
-const code = (cc: string) => (cc === 'GBP' ? '£' : cc === 'EUR' ? '€' : 'PLN');
+const prices = (i: number) => JSON.stringify(
+  Object.fromEntries(CURRENCIES.map((cc) => [cc, { monthly: fmt(PLANS[i].prices[cc].monthly), yearly: fmt(PLANS[i].prices[cc].yearly) }])),
+);
 ---
 <section
   class="section pricing"
@@ -37,74 +34,58 @@ const code = (cc: string) => (cc === 'GBP' ? '£' : cc === 'EUR' ? '€' : 'PLN'
   data-lock-currency={lockCurrency ? 'true' : undefined}
   data-lang={lang}
 >
-  <div class="container">
+  <div class="container pricing-inner">
     <div class="pricing-head">
-      <div>
-        <h2 id="pricing-title">{t.title}</h2>
-        <p class="pricing-sub">{t.sub}</p>
+      <h2 id="pricing-title">{t.title}</h2>
+      <p class="pricing-sub">{t.sub}</p>
+    </div>
+
+    <div class="pricing-controls">
+      <div class="toggle" role="group" aria-label={t.cycleLabel}>
+        <button type="button" data-cycle="monthly" aria-pressed="true">{t.monthly}</button>
+        <button type="button" data-cycle="yearly" aria-pressed="false">{t.yearly}</button>
       </div>
-      <div class="pricing-controls">
-        <div class="pill-group" role="group" aria-label={t.cycleLabel}>
-          <button type="button" data-cycle="monthly" aria-pressed="true">{t.monthly}</button>
-          <button type="button" data-cycle="yearly" aria-pressed="false">{t.yearly} <span class="hint">· {t.yearlyHint}</span></button>
+      {currencies.length > 1 && (
+        <div class="toggle" role="group" aria-label={t.currencyLabel}>
+          {currencies.map((cc) => (
+            <button type="button" data-currency={cc} aria-pressed={cc === cur ? 'true' : 'false'}>{cc}</button>
+          ))}
         </div>
-        {currencies.length > 1 && (
-          <div class="pill-group" role="group" aria-label={t.currencyLabel}>
-            {currencies.map((cc) => (
-              <button type="button" data-currency={cc} aria-pressed={cc === cur ? 'true' : 'false'}>{cc}</button>
-            ))}
-          </div>
-        )}
-      </div>
+      )}
     </div>
 
     <div class="plans">
       {PLANS.map((plan, idx) => {
-        const p = priceParts(plan.prices[cur].monthly, cur);
-        const onDark = plan.variant !== 'light';
-        const btnClass = plan.variant === 'light' ? 'btn--orange' : plan.variant === 'photo' ? 'btn--white' : 'btn--beige';
+        const light = plan.id === 'compact' || plan.id === 'pro';
+        const checks = [
+          plan.qr && t.labels.qr,
+          plan.ownLogo && t.labels.ownLogo,
+          plan.sorting && t.labels.sorting,
+          plan.support24 && t.labels.support24,
+        ].filter(Boolean) as string[];
         return (
-          <article class:list={['plan', `plan--${plan.variant}`, `plan--${plan.id}`]} aria-labelledby={`plan-${plan.id}`}>
-            {plan.variant === 'photo' && (
-              <div class="plan-bg fill-picture" aria-hidden="true">
-                <Picture src={compactBg} formats={['avif', 'webp']} widths={[400]} alt="" loading="lazy" />
-              </div>
-            )}
-            <div class="plan-inner">
-              <div class="plan-top">
-                <h3 id={`plan-${plan.id}`}>{plan.name}</h3>
-                <div class="plan-price">
-                  <p class="price" data-prices={priceData(idx)}>
-                    <span class="cur" data-part="code">{code(cur)}</span>
-                    <span class="num" data-part="number">{p.number}</span>
-                  </p>
-                  <p class="per" data-per-month={t.perMonth} data-per-year={t.perYear}>{t.perMonth}</p>
-                </div>
-              </div>
-              <p class="badge">{t.badges[plan.id]}</p>
-              <ul class="features" role="list">
-                {t.features[plan.id].map((f) => (
-                  <li>
-                    {'n' in f && f.n
-                      ? <span class="f-n">{f.n}</span>
-                      : <svg class:list={['tick', { 'tick--white': onDark }]} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>}
-                    <span>{f.text}</span>
-                  </li>
-                ))}
-              </ul>
-              <div class="plan-bottom">
-                <p class="saving" data-template={t.saving} hidden></p>
-                <p class="live">
-                  <svg class:list={['tick', { 'tick--white': onDark }]} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>
-                  <span>{t.liveUpdate}</span>
-                </p>
-                <a
-                  class:list={['btn', btnClass, 'plan-cta']}
-                  href={registerUrl(plan.id, 'monthly', lang)}
-                  data-plan={plan.id}
-                >{t.cta}<span class="visually-hidden"> {plan.name}</span></a>
-              </div>
-            </div>
+          <article class:list={['plan', `plan--${plan.id}`, { 'plan--light-text': light }]} id={`plan-${plan.id}`} aria-labelledby={`plan-name-${plan.id}`}>
+            <h3 class="plan-name" id={`plan-name-${plan.id}`}>{plan.name}</h3>
+            <p class="plan-price price" data-prices={prices(idx)}>
+              <span class="cur" data-part="code">{cur}</span><span class="amount" data-part="number">{fmt(plan.prices[cur].monthly)}</span>
+            </p>
+            <p class="plan-badge">{t.badges[plan.id]}</p>
+
+            <ul class="plan-features" role="list">
+              <li>{plan.objects}&nbsp;{count(t.labels.objects, plan.objects)}</li>
+              <li>{plan.languages}&nbsp;{count(t.labels.languages, plan.languages)}</li>
+              <li>{plan.localRecs}&nbsp;{count(t.labels.localRecs, plan.localRecs)}</li>
+              <li class="check"><span class="tick" aria-hidden="true">✓</span><span>{t.labels.liveUpdate}</span></li>
+              {checks.map((label) => (
+                <li class="check"><span class="tick" aria-hidden="true">✓</span><span>{label}</span></li>
+              ))}
+            </ul>
+
+            <div class="plan-spacer"></div>
+
+            <a class="plan-cta" href={registerUrl(plan.id, 'monthly', lang)} data-plan={plan.id}>
+              {t.cta}<span class="visually-hidden"> {plan.name}</span>
+            </a>
           </article>
         );
       })}
@@ -115,57 +96,68 @@ const code = (cc: string) => (cc === 'GBP' ? '£' : cc === 'EUR' ? '€' : 'PLN'
 </section>
 
 <style>
-  .pricing { background: var(--cream); }
-  .pricing-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; margin-bottom: 40px; }
-  h2 { color: var(--orange-heading); font-size: clamp(34px, 4vw, 54px); }
-  .pricing-sub { margin-top: 14px; color: var(--orange-text); max-width: 36em; }
-  .pricing-controls { display: flex; gap: 10px; flex-wrap: wrap; }
-  .hint { opacity: 1; }
+  /* Kolory z aplikacji */
+  .pricing {
+    --app-fg: #241a12; --app-muted: #8a7a6b; --app-border: #a6a6a6;
+    background: var(--cream);
+  }
+  .pricing-inner { max-width: 1000px; }
+  h2 { font-size: 30px; line-height: 1.2; letter-spacing: -0.025em; color: var(--app-fg); }
+  .pricing-sub { margin-top: 8px; font-size: 14px; color: var(--app-muted); }
 
-  .plans { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; align-items: stretch; max-width: 1040px; margin: 0 auto; }
+  .pricing-controls { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0; }
+  .toggle { display: inline-flex; border: 1px solid var(--app-border); border-radius: 999px; background: #fff; padding: 4px; font-size: 14px; }
+  .toggle button {
+    cursor: pointer; border: 0; background: transparent; border-radius: 999px; padding: 6px 16px;
+    font-family: var(--font-display); color: var(--app-muted); transition: color .15s, background-color .15s;
+  }
+  .toggle button:hover { color: var(--app-fg); }
+  .toggle button[aria-pressed='true'] { background: #ff721e; color: #fff; }
+
+  .plans { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
   .plan {
-    position: relative; overflow: hidden; display: flex;
-    border-radius: var(--radius-card); background: var(--white); color: var(--ink);
-    box-shadow: 0 10px 30px rgba(120, 50, 10, 0.16);
+    position: relative; display: flex; flex-direction: column; overflow: hidden;
+    border: 1px solid var(--app-border); border-radius: 16px; padding: 16px;
+    box-shadow: 0 6px 16px rgba(20, 10, 10, 0.14);
+    background: #fff; color: var(--app-muted);
   }
-  .plan-inner { position: relative; display: flex; flex-direction: column; width: 100%; padding: 22px 18px 18px; }
-  .plan-bg { position: absolute; inset: 0; }
-  .plan-bg :global(img) { object-position: 30% 50%; }
-  .plan-bg::after { content: ''; position: absolute; inset: 0; background: rgba(180, 60, 0, 0.18); }
-  .plan--photo, .plan--orange { color: var(--white); }
-  .plan--orange { background: var(--orange-1); }
+  .plan--compact { background: #ede2df url('../../assets/pricing-compact-bg.jpg') center / cover no-repeat; }
+  .plan--pro { background: #ff721e; }
 
-  .plan-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
-  h3 { font-size: 19px; font-weight: 500; color: var(--ink); }
-  .plan--photo h3, .plan--orange h3 { color: var(--white); }
-  .plan-price { text-align: right; }
-  .price { display: flex; align-items: baseline; justify-content: flex-end; gap: 4px; white-space: nowrap; line-height: 1; color: var(--orange-text); }
-  .plan--photo .price, .plan--orange .price { color: var(--white); text-shadow: 0 2px 8px rgba(120, 40, 0, 0.3); }
-  .cur { font-family: var(--font-display); font-size: 12px; }
-  .num { font-family: var(--font-display); font-weight: 500; font-size: 22px; letter-spacing: -0.02em; }
-  .per { font-size: 12px; margin-top: 4px; opacity: .8; }
-
-  .badge {
-    margin-top: 16px; padding-bottom: 10px; border-bottom: 1px solid rgba(43, 26, 16, 0.25);
-    font-family: var(--font-display); font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase;
+  .plan-name { font-family: var(--font-display); font-size: 19px; font-weight: 400; line-height: 1.3; white-space: nowrap; color: var(--app-fg); letter-spacing: 0; }
+  .plan-price {
+    margin: 4px 0 8px; text-align: right; white-space: nowrap; font-family: var(--font-display); font-size: 21px; line-height: 1.3;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.22);
   }
-  .plan--photo .badge, .plan--orange .badge { border-bottom-color: var(--line-white); }
-
-  .features { list-style: none; padding: 0; margin: 12px 0 0; display: grid; gap: 7px; font-size: 14px; }
-  .features li { display: grid; grid-template-columns: 28px 1fr; align-items: center; gap: 4px; }
-  .f-n { font-family: var(--font-display); text-align: right; padding-right: 6px; }
-  .features .tick { justify-self: end; margin-right: 6px; }
-
-  .plan-bottom { margin-top: auto; padding-top: 22px; }
-  .saving { font-size: 13px; margin-bottom: 8px; }
-  .live { display: flex; align-items: center; gap: 8px; font-size: 13.5px; margin-bottom: 14px; }
-  .plan-cta { width: 100%; min-height: 44px; }
-
-  .pricing-note { margin: 28px auto 0; font-size: 13.5px; color: var(--ink-soft); max-width: 1040px; }
-
-  @media (max-width: 1080px) { .plans { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  @media (max-width: 600px) {
-    .plans { grid-template-columns: 1fr; }
-    .plan--compact { order: -1; }
+  .cur { margin-right: 6px; font-size: 12.75px; color: var(--app-muted); }
+  .amount { font-weight: 700; color: #ff721e; }
+  .plan-badge {
+    margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid rgba(166, 166, 166, 0.6);
+    font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap;
   }
+  .plan-features { list-style: none; margin: 0; padding: 0; font-size: 11px; line-height: 1.5; }
+  .plan-features li { margin-bottom: 6px; white-space: nowrap; }
+  .plan-features .check { display: flex; align-items: center; gap: 6px; }
+  .tick { flex: none; font-size: 12px; font-weight: 700; line-height: 1; color: #ff721e; }
+  .plan-spacer { flex: 1; min-height: 12px; }
+
+  .plan-cta {
+    display: block; text-align: center; text-decoration: none; cursor: pointer;
+    border: 1px solid var(--app-border); border-radius: 9px; padding: 10px 16px;
+    font-family: var(--font-display); font-size: 12px; font-weight: 600; line-height: 1.4;
+    box-shadow: 0 4px 10px rgba(20, 10, 10, 0.13);
+    background: #ff721e; color: #fff; transition: filter .15s;
+  }
+  .plan-cta:hover { filter: brightness(0.95); }
+  .plan--compact .plan-cta { background: #fff; color: var(--app-fg); }
+  .plan--pro .plan-cta { background: #ebe2d0; color: var(--app-fg); }
+
+  /* Compact i PRO: biały tekst */
+  .plan--light-text, .plan--light-text .plan-name, .plan--light-text .cur, .plan--light-text .amount, .plan--light-text .tick { color: #fff; }
+  .plan--light-text .plan-badge { color: rgba(255, 255, 255, 0.85); border-bottom-color: rgba(255, 255, 255, 0.5); }
+
+  .pricing-note { margin-top: 24px; font-size: 13px; color: var(--app-muted); max-width: 60em; }
+
+  @media (max-width: 1023px) { .plans { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 639px) { .plans { grid-template-columns: 1fr; } }
 </style>

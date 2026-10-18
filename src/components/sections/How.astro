@@ -51,8 +51,8 @@ const h = c.how;
   .eyebrow { margin-bottom: 14px; }
   h2 { color: var(--white); display: flex; align-items: center; justify-content: flex-end; gap: clamp(16px, 3vw, 40px); }
   .big-number {
-    font-family: var(--font-display); font-weight: 500; line-height: .8; letter-spacing: -0.05em;
-    font-size: clamp(130px, 17vw, 240px); color: var(--white);
+    font-family: var(--font-display); font-weight: 400; line-height: .8; letter-spacing: -0.05em;
+    font-size: clamp(96px, 11vw, 160px); color: var(--white);
     text-shadow: 0 10px 40px rgba(150, 50, 0, 0.25);
   }
   .how-title-text { display: block; max-width: 15em; text-shadow: 0 2px 14px rgba(150, 50, 0, 0.3); }
@@ -64,8 +64,8 @@ const h = c.how;
     background: var(--cream); border: 1.5px solid var(--orange-2); border-radius: var(--radius-card);
     padding: 22px 22px 24px; box-shadow: var(--shadow-lift); color: var(--orange-text);
   }
-  h3 { display: flex; align-items: baseline; gap: 10px; color: var(--orange-heading); font-size: 19px; }
-  .step-n { font-family: var(--font-display); font-size: 34px; font-weight: 500; line-height: 1; }
+  h3 { display: flex; align-items: baseline; gap: 10px; color: var(--orange-heading); }
+  .step-n { font-family: var(--font-display); font-size: 28px; font-weight: 400; line-height: 1; }
   .step p { margin-top: 12px; font-size: 15px; line-height: 1.55; }
 
   @media (max-width: 900px) {
@@ -73,7 +73,7 @@ const h = c.how;
   }
   @media (max-width: 620px) {
     .how-head { justify-items: start; text-align: left; }
-    h2 { justify-content: flex-start; font-size: 26px; }
-    .big-number { font-size: 120px; }
+    h2 { justify-content: flex-start; }
+    .big-number { font-size: 96px; }
   }
 </style>

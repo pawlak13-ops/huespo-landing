@@ -3,6 +3,7 @@ export const APP_URL = 'https://app.huespo.app';
 
 export const LINKS = {
   login: `${APP_URL}/login`,
+  register: `${APP_URL}/register`,
   terms: `${APP_URL}/terms`,
   privacy: `${APP_URL}/privacy`,
   email: 'contact@huespo.app',

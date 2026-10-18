@@ -11,7 +11,7 @@ const home = LANG_PATHS[lang];
 <footer class="site-footer">
   <div class="container footer-top">
     <div class="footer-brand">
-      <img src="/logo-wordmark-white.svg" alt="Huespo" width="150" height="41" loading="lazy" />
+      <img src="/logo-wordmark.svg" alt="Huespo" width="150" height="41" loading="lazy" />
       <p>{c.footer.description}</p>
     </div>
     <nav class="footer-nav" aria-label={c.nav.mainLabel}>
@@ -37,17 +37,17 @@ const home = LANG_PATHS[lang];
 </footer>
 
 <style>
-  .site-footer { background: #1d140e; color: rgba(255, 255, 255, 0.82); padding: 48px 0 24px; font-size: 14px; }
+  .site-footer { background: var(--beige); color: var(--ink); padding: 48px 0 24px; font-size: 14px; }
   .footer-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 32px; flex-wrap: wrap; }
   .footer-brand img { height: 36px; width: auto; }
-  .footer-brand p { margin-top: 12px; max-width: 28em; }
+  .footer-brand p { margin-top: 12px; max-width: 28em; color: var(--ink-soft); }
   .footer-nav { display: flex; flex-wrap: wrap; gap: 10px 28px; }
   a { color: inherit; text-decoration: none; }
-  a:hover { color: var(--white); text-decoration: underline; }
+  a:hover { color: var(--orange-text-beige); text-decoration: underline; }
   .footer-bottom {
-    margin-top: 36px; padding-top: 18px; border-top: 1px solid rgba(255, 255, 255, 0.15);
-    display: flex; justify-content: space-between; gap: 12px 24px; flex-wrap: wrap; font-size: 13px; color: rgba(255, 255, 255, 0.7);
+    margin-top: 36px; padding-top: 18px; border-top: 1px solid rgba(43, 26, 16, 0.15);
+    display: flex; justify-content: space-between; gap: 12px 24px; flex-wrap: wrap; font-size: 13px; color: var(--ink-soft);
   }
   .footer-links { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px 20px; }
-  .footer-links a[aria-current='true'] { color: var(--white); }
+  .footer-links a[aria-current='true'] { color: var(--orange-text-beige); }
 </style>
