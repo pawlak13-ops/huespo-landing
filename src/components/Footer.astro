@@ -9,70 +9,45 @@ const { c, lang } = Astro.props;
 const home = LANG_PATHS[lang];
 ---
 <footer class="site-footer">
-  <div class="container footer-grid">
+  <div class="container footer-top">
     <div class="footer-brand">
-      <img src="/logo-wordmark.svg" alt="Huespo" width="172" height="47" loading="lazy" />
+      <img src="/logo-wordmark-white.svg" alt="Huespo" width="150" height="41" loading="lazy" />
       <p>{c.footer.description}</p>
     </div>
-
-    <nav aria-label={c.footer.product}>
-      <h2 class="footer-title">{c.footer.product}</h2>
-      <ul>
-        <li><a href={`${home}#jak-to-dziala`}>{c.nav.how}</a></li>
-        <li><a href={`${home}#funkcje`}>{c.nav.features}</a></li>
-        <li><a href={`${home}#cennik`}>{c.nav.pricing}</a></li>
-        <li><a href={`${home}#faq`}>{c.nav.faq}</a></li>
-      </ul>
+    <nav class="footer-nav" aria-label={c.nav.mainLabel}>
+      <a href={`${home}#jak-to-dziala`}>{c.nav.how}</a>
+      <a href={`${home}#funkcje`}>{c.nav.features}</a>
+      <a href={`${home}#cennik`}>{c.nav.pricing}</a>
+      <a href={`${home}#faq`}>{c.nav.faq}</a>
+      <a href={LINKS.login}>{c.nav.login}</a>
     </nav>
-
-    <nav aria-label={c.footer.legal}>
-      <h2 class="footer-title">{c.footer.legal}</h2>
-      <ul>
-        <li><a href={LINKS.terms}>{c.footer.terms}</a></li>
-        <li><a href={LINKS.privacy}>{c.footer.privacy}</a></li>
-        <li><a href={`mailto:${LINKS.email}`}>{c.footer.contact}</a></li>
-      </ul>
-    </nav>
-
-    <div>
-      <h2 class="footer-title">{c.footer.contact}</h2>
-      <address>
-        {c.footer.company}<br />
-        {c.footer.location}<br />
-        <a href={`mailto:${LINKS.email}`}>{LINKS.email}</a>
-      </address>
-    </div>
   </div>
 
   <div class="container footer-bottom">
-    <span>{c.footer.copyright}</span>
-    {LANGS.length > 1 && (
-      <ul class="footer-langs" aria-label={c.nav.languages}>
-        {LANGS.map((l) => (
-          <li><a href={LANG_PATHS[l]} hreflang={l} lang={l} aria-current={l === lang ? 'true' : undefined}>{LANG_LABELS[l]}</a></li>
-        ))}
-      </ul>
-    )}
+    <p>{c.footer.copyright} · {c.footer.company} · {c.footer.location}</p>
+    <ul class="footer-links">
+      <li><a href={LINKS.terms}>{c.footer.terms}</a></li>
+      <li><a href={LINKS.privacy}>{c.footer.privacy}</a></li>
+      <li><a href={`mailto:${LINKS.email}`}>{LINKS.email}</a></li>
+      {LANGS.length > 1 && LANGS.map((l) => (
+        <li><a href={LANG_PATHS[l]} hreflang={l} lang={l} aria-current={l === lang ? 'true' : undefined}>{LANG_LABELS[l]}</a></li>
+      ))}
+    </ul>
   </div>
 </footer>
 
 <style>
-  .site-footer { background: var(--white); border-top: 1px solid var(--brand-border); padding: 64px 0 28px; font-size: 15px; }
-  .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.3fr; gap: 40px; }
-  .footer-brand img { height: 40px; width: auto; }
-  .footer-brand p { margin-top: 14px; color: var(--text-muted); max-width: 260px; }
-  .footer-title { font-family: var(--font-body); font-size: 14px; font-weight: 500; letter-spacing: 0; color: var(--text-heading); margin-bottom: 14px; }
-  ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
-  a { color: var(--text-muted); text-decoration: none; }
-  a:hover { color: var(--text-heading); text-decoration: underline; }
-  address { font-style: normal; color: var(--text-muted); line-height: 1.8; }
+  .site-footer { background: #1d140e; color: rgba(255, 255, 255, 0.82); padding: 48px 0 24px; font-size: 14px; }
+  .footer-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 32px; flex-wrap: wrap; }
+  .footer-brand img { height: 36px; width: auto; }
+  .footer-brand p { margin-top: 12px; max-width: 28em; }
+  .footer-nav { display: flex; flex-wrap: wrap; gap: 10px 28px; }
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: var(--white); text-decoration: underline; }
   .footer-bottom {
-    margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--brand-beige);
-    display: flex; justify-content: space-between; align-items: center; gap: 16px;
-    color: var(--text-muted); font-size: 14px;
+    margin-top: 36px; padding-top: 18px; border-top: 1px solid rgba(255, 255, 255, 0.15);
+    display: flex; justify-content: space-between; gap: 12px 24px; flex-wrap: wrap; font-size: 13px; color: rgba(255, 255, 255, 0.7);
   }
-  .footer-langs { display: flex; gap: 14px; }
-  .footer-langs a[aria-current='true'] { color: var(--text-heading); }
-  @media (max-width: 860px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 520px) { .footer-grid { grid-template-columns: 1fr; gap: 32px; } }
+  .footer-links { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px 20px; }
+  .footer-links a[aria-current='true'] { color: var(--white); }
 </style>

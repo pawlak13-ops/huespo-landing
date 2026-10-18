@@ -5,63 +5,58 @@ interface Props { c: Content }
 const { c } = Astro.props;
 const f = c.features;
 ---
-<section class="section section--white" id="funkcje" aria-labelledby="features-title">
+<section class="section features" id="funkcje" aria-labelledby="features-title">
   <div class="container">
-    <div class="section-head">
-      <h2 id="features-title">{f.title}</h2>
-      <p>{f.intro}</p>
-    </div>
+    <p class="eyebrow">{f.eyebrow}</p>
+    <h2 id="features-title">
+      <img class="wordmark" src="/logo-text-orange.svg" alt="Huespo" width="300" height="62" />
+      <span class="features-title">{f.title}</span>
+    </h2>
 
-    <div class="bento">
-      <article class="tile tile--lead reveal">
-        <div class="lead-icon"><Icon name="link" size={28} /></div>
+    <ul class="bento" role="list">
+      <li class="card card--lead reveal">
+        <Icon name={f.lead.icon} size={26} class="card-icon" />
         <h3>{f.lead.title}</h3>
         <p>{f.lead.text}</p>
-        <div class="fake-url" aria-hidden="true">
-          <span class="dot"></span>app.huespo.app/p/malibu-park
-        </div>
-      </article>
+      </li>
       {f.items.map((it) => (
-        <article class="tile reveal">
-          <div class="tile-icon"><Icon name={it.icon} /></div>
+        <li class="card reveal">
+          <Icon name={it.icon} size={26} class="card-icon" />
           <h3>{it.title}</h3>
           <p>{it.text}</p>
-        </article>
+        </li>
       ))}
-    </div>
+    </ul>
   </div>
 </section>
 
 <style>
-  .bento { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .tile {
-    background: var(--brand-cream); border: 1px solid var(--brand-border); border-radius: var(--radius-card);
-    padding: 26px; box-shadow: var(--shadow-card);
-    transition: transform .2s ease, box-shadow .2s ease;
-  }
-  .tile:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift); }
-  .tile h3 { margin-top: 18px; }
-  .tile p { margin-top: 8px; font-size: 15.5px; color: var(--text-muted); }
-  .tile-icon { color: var(--brand-orange); }
+  .features { background: var(--beige); }
+  .eyebrow { color: var(--orange-text-beige); margin-bottom: 18px; }
+  h2 { color: var(--orange-heading-beige); }
+  .wordmark { width: clamp(190px, 22vw, 300px); height: auto; margin-bottom: 12px; }
+  .features-title { display: block; max-width: 18em; font-weight: 500; }
 
-  .tile--lead {
-    grid-column: span 2; background: var(--brand-orange); border-color: var(--brand-orange);
-    color: var(--white); display: flex; flex-direction: column; padding: 32px;
+  .bento { list-style: none; padding: 0; margin: clamp(32px, 4vw, 48px) 0 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .card {
+    position: relative; background: var(--cream); border: 1.5px solid var(--orange-2); border-radius: var(--radius-card);
+    padding: 24px 24px 26px; color: var(--orange-text); min-height: 150px;
+    display: flex; flex-direction: column; justify-content: flex-end;
   }
-  .tile--lead h3 { color: var(--white); font-size: clamp(24px, 2.2vw, 30px); max-width: 16ch; }
-  .tile--lead p { color: rgba(255, 255, 255, 0.92); max-width: 34em; font-size: 16.5px; margin-bottom: 28px; }
-  .lead-icon { color: var(--white); }
-  .fake-url {
-    align-self: flex-start; margin-top: auto;
-    display: inline-flex; align-items: center; gap: 10px;
-    background: var(--white); color: var(--text-heading); border-radius: 100px;
-    padding: 9px 16px; font-size: 14px;
-  }
-  .dot { width: 8px; height: 8px; border-radius: 50%; background: #2fae5f; }
+  .card :global(.card-icon) { position: absolute; top: 18px; right: 18px; color: var(--orange-2); }
+  h3 { color: var(--orange-heading); font-size: 19px; font-weight: 500; padding-right: 36px; }
+  .card p { margin-top: 10px; font-size: 14.5px; line-height: 1.55; }
 
-  @media (max-width: 900px) { .bento { grid-template-columns: 1fr 1fr; } }
+  .card--lead { grid-column: span 2; background: var(--orange-1); border-color: var(--orange-1); color: var(--white); }
+  .card--lead h3 { color: var(--white); font-size: clamp(21px, 1.8vw, 26px); }
+  .card--lead p { font-size: 16px; max-width: 36em; }
+  .card--lead :global(.card-icon) { color: var(--white); }
+
+  @media (max-width: 900px) {
+    .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
   @media (max-width: 600px) {
     .bento { grid-template-columns: 1fr; }
-    .tile--lead { grid-column: auto; }
+    .card--lead { grid-column: auto; }
   }
 </style>

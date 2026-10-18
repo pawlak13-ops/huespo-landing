@@ -1,43 +1,52 @@
 /* =====================================================================
    HUESPO — tokeny marki. Kolory zmieniasz TYLKO tutaj.
+   Paleta z makiety Canva (październik 2026).
    ===================================================================== */
 :root {
-  --brand-orange: #ff6105;
-  --brand-orange-dark: #e65500;
-  /* Pomarańcz dla TEKSTU na jasnym tle — minimalnie ciemniejszy dla czytelności */
-  --accent-text: #e65500;
-  --brand-cream: #fffcf3;
-  --brand-beige: #ebe2d0;
-  --brand-border: #a6a6a6;
-  --text-heading: #000000;
-  --text-muted: #737373;
-  --text-body: #3d3833;
+  /* Kolory marki */
+  --cream: #fff7e9;
+  --orange-1: #ff721e;
+  --orange-2: #f08123;
+  --beige: #ebe2d0;
   --white: #ffffff;
-  --overlay: rgba(20, 10, 10, 0.3);
+
+  /* Pomarańcz dla TEKSTU na jasnym tle — minimalnie ciemniejszy, żeby był czytelny
+     (wymóg dostępności i Google Lighthouse). Duże nagłówki / mały tekst. */
+  --orange-heading: #e8600f;
+  --orange-text: #c2410c;
+  /* Na beżowym tle potrzebne o ton ciemniejsze */
+  --orange-heading-beige: #d9560a;
+  --orange-text-beige: #b23d0a;
+
+  --ink: #2b1a10;          /* ciemny tekst (prawie czarny, ciepły) */
+  --ink-soft: #6b5545;     /* tekst pomocniczy na jasnym tle */
+  --line-light: rgba(240, 129, 35, 0.55); /* obramowania kart na kremowym */
+  --line-white: rgba(255, 255, 255, 0.6); /* linie na pomarańczowym */
 
   --font-display: 'Sora', ui-sans-serif, system-ui, sans-serif;
   --font-body: 'Inter', ui-sans-serif, system-ui, sans-serif;
 
-  --radius-card: 14px;
-  --radius-btn: 10px;
-  --radius-frame: 22px;
-  --shadow-card: 0 3px 10px rgba(20, 10, 10, 0.07);
-  --shadow-lift: 0 10px 28px rgba(20, 10, 10, 0.1);
+  --radius-card: 18px;
+  --radius-big: 28px;
+  --radius-pill: 100px;
+  --shadow-card: 0 4px 14px rgba(120, 50, 10, 0.08);
+  --shadow-lift: 0 14px 34px rgba(120, 50, 10, 0.14);
 
-  --container: 1180px;
-  --gutter: clamp(16px, 4vw, 32px);
-  --section-y: clamp(72px, 10vw, 128px);
+  --container: 1200px;
+  --gutter: clamp(16px, 4vw, 40px);
+  --section-y: clamp(64px, 9vw, 120px);
+  --header-h: 76px;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: 88px; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: var(--header-h); }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 body {
   margin: 0;
-  background: var(--brand-cream);
-  color: var(--text-body);
+  background: var(--cream);
+  color: var(--ink);
   font-family: var(--font-body);
-  font-size: clamp(16px, 1.05vw + 12px, 18px);
+  font-size: clamp(16px, 0.6vw + 13px, 18px);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -49,25 +58,25 @@ button, input, select, textarea { font: inherit; color: inherit; }
 h1, h2, h3, .display {
   font-family: var(--font-display);
   font-weight: 400;
-  color: var(--text-heading);
   line-height: 1.1;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
   margin: 0;
   text-wrap: balance;
 }
-h1 { font-size: clamp(38px, 5.4vw, 66px); letter-spacing: -0.035em; }
-h2 { font-size: clamp(28px, 3.4vw, 42px); letter-spacing: -0.025em; }
+h1 { font-size: clamp(38px, 5vw, 66px); letter-spacing: -0.035em; }
+h2 { font-size: clamp(30px, 3.6vw, 48px); }
 h3 { font-size: clamp(18px, 1.4vw, 21px); line-height: 1.25; letter-spacing: -0.01em; }
 p { margin: 0; text-wrap: pretty; }
 
 .container { width: 100%; max-width: var(--container); margin: 0 auto; padding: 0 var(--gutter); }
-.section { padding: var(--section-y) 0; }
-.section--beige { background: var(--brand-beige); }
-.section--white { background: var(--white); }
-.section-head { max-width: 640px; margin-bottom: clamp(36px, 5vw, 56px); }
-.section-head p { margin-top: 16px; color: var(--text-muted); }
-.muted { color: var(--text-muted); }
-.accent { color: var(--accent-text); }
+.section { position: relative; padding: var(--section-y) 0; }
+
+/* Mała etykieta nad nagłówkiem, np. „DLACZEGO HUESPO” */
+.eyebrow {
+  display: block;
+  font-family: var(--font-display); font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase;
+  line-height: 1.4;
+}
 
 .visually-hidden {
   position: absolute !important; width: 1px; height: 1px; overflow: hidden;
@@ -75,59 +84,58 @@ p { margin: 0; text-wrap: pretty; }
 }
 .skip-link {
   position: absolute; left: 16px; top: -60px; z-index: 100;
-  background: var(--text-heading); color: var(--white); padding: 10px 16px; border-radius: var(--radius-btn);
+  background: var(--ink); color: var(--white); padding: 10px 16px; border-radius: 10px;
   text-decoration: none;
 }
 .skip-link:focus { top: 12px; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 6px; }
+.on-orange :focus-visible { outline-color: var(--white); }
 
-:focus-visible { outline: 2px solid var(--text-heading); outline-offset: 3px; border-radius: 4px; }
-
-/* ---------- Buttons ---------- */
+/* ---------- Przyciski (pigułki jak w makiecie) ---------- */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  min-height: 48px; padding: 12px 22px;
-  font-family: var(--font-display); font-weight: 400; font-size: 16px; line-height: 1.2;
-  border-radius: var(--radius-btn); border: 1px solid var(--brand-border);
-  text-decoration: none; cursor: pointer;
-  transition: background-color .18s ease, color .18s ease, transform .1s ease, box-shadow .18s ease;
-  box-shadow: var(--shadow-card);
+  min-height: 48px; padding: 12px 28px;
+  font-family: var(--font-display); font-size: 15px; line-height: 1.2; letter-spacing: 0.06em; text-transform: uppercase;
+  border-radius: var(--radius-pill); border: 1.5px solid transparent;
+  text-decoration: none; cursor: pointer; text-align: center;
+  transition: background-color .18s ease, color .18s ease, transform .1s ease, box-shadow .18s ease, border-color .18s ease;
 }
 .btn:active { transform: translateY(1px); }
-.btn--primary { background: var(--brand-orange); color: var(--white); }
-.btn--primary:hover { background: var(--brand-orange-dark); }
-.btn--outline { background: transparent; color: var(--text-heading); box-shadow: none; }
-.btn--outline:hover { background: rgba(0, 0, 0, 0.04); }
-.btn--white { background: var(--white); color: var(--text-heading); }
-.btn--white:hover { background: var(--brand-cream); }
-.btn--beige { background: var(--brand-beige); color: var(--text-heading); }
+.btn small { font-family: var(--font-body); font-size: 13px; letter-spacing: 0; text-transform: none; opacity: .85; }
+/* Kremowy z pomarańczowym tekstem — główny przycisk na pomarańczowym tle */
+.btn--cream { background: var(--cream); color: var(--orange-text); box-shadow: 0 6px 18px rgba(120, 40, 0, 0.18); }
+.btn--cream:hover { background: var(--white); }
+/* Biała obwódka — drugorzędny na pomarańczowym tle */
+.btn--ghost { background: transparent; color: var(--white); border-color: rgba(255, 255, 255, 0.85); }
+.btn--ghost:hover { background: rgba(255, 255, 255, 0.14); }
+/* Pomarańczowy — główny przycisk na jasnym tle */
+.btn--orange { background: var(--orange-1); color: var(--white); border-color: var(--orange-1); box-shadow: var(--shadow-card); text-transform: none; letter-spacing: 0; font-size: 16px; }
+.btn--orange:hover { background: var(--orange-heading); border-color: var(--orange-heading); }
+.btn--white { background: var(--white); color: var(--orange-text); text-transform: none; letter-spacing: 0; font-size: 16px; box-shadow: var(--shadow-card); }
+.btn--white:hover { background: var(--cream); }
+.btn--beige { background: var(--beige); color: var(--orange-text-beige); text-transform: none; letter-spacing: 0; font-size: 16px; box-shadow: var(--shadow-card); }
 .btn--beige:hover { background: #e2d6bf; }
-.btn--sm { min-height: 40px; padding: 8px 16px; font-size: 15px; }
 
-/* ---------- Pills (toggles, chips) ---------- */
+/* ---------- Pigułki-przełączniki (cennik) ---------- */
 .pill-group {
-  display: inline-flex; padding: 3px; gap: 2px;
-  border: 1px solid var(--brand-border); border-radius: 100px; background: var(--white);
+  display: inline-flex; padding: 4px; gap: 2px;
+  border: 1.5px solid var(--line-light); border-radius: var(--radius-pill); background: var(--white);
 }
 .pill-group button {
   border: 0; background: transparent; cursor: pointer;
-  min-height: 38px; padding: 6px 16px; border-radius: 100px;
-  font-family: var(--font-display); font-size: 14px; color: var(--text-muted);
+  min-height: 40px; padding: 6px 18px; border-radius: var(--radius-pill);
+  font-family: var(--font-display); font-size: 14px; color: var(--orange-text);
   transition: background-color .18s ease, color .18s ease;
 }
-.pill-group button[aria-pressed='true'] { background: var(--brand-orange); color: var(--white); }
+.pill-group button[aria-pressed='true'] { background: var(--orange-1); color: var(--white); }
 
-/* ---------- Check icon ---------- */
-.check {
-  flex: none; width: 16px; height: 16px; border-radius: 50%;
-  display: inline-grid; place-items: center;
-  background: var(--brand-orange); color: var(--white);
-}
-.check svg { width: 10px; height: 10px; }
-.check--white { background: var(--white); color: var(--brand-orange); }
+/* ---------- Znacznik ✓ ---------- */
+.tick { flex: none; width: 16px; height: 16px; color: var(--orange-1); }
+.tick--white { color: var(--white); }
 
-/* ---------- Reveal (one gentle entrance, respects reduced motion) ---------- */
+/* ---------- Jedno łagodne pojawienie się (szanuje „ogranicz ruch”) ---------- */
 @media (prefers-reduced-motion: no-preference) {
-  .js .reveal { opacity: 0; transform: translateY(14px); transition: opacity .6s ease, transform .6s ease; }
+  .js .reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
   .js .reveal.is-visible { opacity: 1; transform: none; }
 }
 

@@ -21,7 +21,7 @@ document.addEventListener('click', (e) => {
 
 /* ---------- Nagłówek: linia po przewinięciu ---------- */
 const header = document.getElementById('site-header');
-const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 8);
+const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 24);
 onScroll();
 window.addEventListener('scroll', onScroll, { passive: true });
 
@@ -31,6 +31,7 @@ const nav = document.getElementById('main-nav');
 if (toggle && nav) {
   const setOpen = (open: boolean) => {
     nav.classList.toggle('is-open', open);
+    header?.classList.toggle('menu-open', open);
     toggle.setAttribute('aria-expanded', String(open));
     toggle.setAttribute('aria-label', (open ? toggle.dataset.close : toggle.dataset.open) ?? '');
   };
@@ -80,13 +81,14 @@ if (pricing) {
 
   // Wybór zapisany wcześniej > region odwiedzającego > domyślna waluta wersji językowej.
   const saved = store.get('huespo-currency');
-  if (saved && ['PLN', 'EUR', 'GBP'].includes(saved)) {
+  if (pricing.dataset.lockCurrency) {
+    // Wersja polska: zawsze PLN.
+  } else if (saved && ['EUR', 'GBP'].includes(saved)) {
     currency = saved;
   } else {
     const loc = navigator.language || '';
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
     if (/-GB$/i.test(loc) || tz === 'Europe/London') currency = 'GBP';
-    else if (/^pl/i.test(loc) || tz === 'Europe/Warsaw') currency = 'PLN';
   }
 
   const render = () => {
@@ -100,10 +102,10 @@ if (pricing) {
       const entry = data[currency];
       if (!entry) return;
       const parts = entry[cycle];
-      (['before', 'number', 'after'] as const).forEach((k) => {
-        const el = priceEl.querySelector<HTMLElement>(`[data-part="${k}"]`);
-        if (el) el.textContent = parts[k];
-      });
+      const num = priceEl.querySelector<HTMLElement>('[data-part="number"]');
+      if (num) num.textContent = parts.number;
+      const code = priceEl.querySelector<HTMLElement>('[data-part="code"]');
+      if (code) code.textContent = currency === 'GBP' ? '£' : currency === 'EUR' ? '€' : 'PLN';
       const per = card.querySelector<HTMLElement>('.per');
       if (per) per.textContent = (cycle === 'monthly' ? per.dataset.perMonth : per.dataset.perYear) ?? '';
       const saving = card.querySelector<HTMLElement>('.saving');
@@ -130,16 +132,6 @@ if (pricing) {
   render();
 }
 
-/* ---------- Przyciski „Kopiuj” w podglądzie ---------- */
-document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((btn) => {
-  const label = btn.textContent;
-  btn.addEventListener('click', async () => {
-    try { await navigator.clipboard.writeText(btn.dataset.copy ?? ''); } catch { /* brak dostępu do schowka */ }
-    btn.classList.add('copied'); btn.textContent = '✓';
-    setTimeout(() => { btn.classList.remove('copied'); btn.textContent = label; }, 1400);
-  });
-});
-
 /* ---------- Formularz kontaktowy (Netlify Forms) ---------- */
 const form = document.querySelector<HTMLFormElement>('form[name="kontakt"]');
 if (form) {
@@ -162,11 +154,11 @@ if (form) {
     };
     const name = form.elements.namedItem('name') as HTMLInputElement;
     const email = form.elements.namedItem('email') as HTMLInputElement;
-    const props = form.elements.namedItem('properties') as HTMLSelectElement;
+    const message = form.elements.namedItem('message') as HTMLTextAreaElement;
     const privacy = form.elements.namedItem('privacy') as HTMLInputElement;
     check(name, name.value.trim() ? '' : msg.msgRequired ?? '');
     check(email, !email.value.trim() ? msg.msgRequired ?? '' : /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim()) ? '' : msg.msgEmail ?? '');
-    check(props, props.value ? '' : msg.msgRequired ?? '');
+    check(message as unknown as HTMLInputElement, message.value.trim() ? '' : msg.msgRequired ?? '');
     check(privacy, privacy.checked ? '' : msg.msgPrivacy ?? '');
     (first as HTMLElement | null)?.focus();
     return ok;

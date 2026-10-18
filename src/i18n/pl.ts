@@ -1,6 +1,6 @@
 // =====================================================================
 // TEKSTY STRONY — WERSJA POLSKA (źródłowa).
-// Wersje es.ts i en.ts mają dokładnie te same klucze.
+// Wersje es.ts i en.ts będą miały dokładnie te same klucze.
 // Zmieniasz tekst = zmieniasz wartość w cudzysłowie. Klucze zostawiasz.
 // =====================================================================
 
@@ -14,7 +14,7 @@ export const pl = {
       'Kod do drzwi, WiFi, zasady domu i lokalne polecenia w jednym linku dla gości. Bez aplikacji i logowania. Wypróbuj Huespo 14 dni za darmo.',
     ogImageAlt: 'Huespo — cyfrowy przewodnik dla gości najmu krótkoterminowego',
     appDescription:
-      'Cyfrowy przewodnik (welcome book) dla gości najmu krótkoterminowego: kod do drzwi, WiFi, zasady domu i lokalne rekomendacje w jednym linku.',
+      'Cyfrowy przewodnik (welcome book) i concierge dla gości najmu krótkoterminowego: kod do drzwi, WiFi, zasady domu i lokalne rekomendacje w jednym linku.',
   },
 
   nav: {
@@ -28,10 +28,10 @@ export const pl = {
     languages: 'Język strony',
     menuOpen: 'Otwórz menu',
     menuClose: 'Zamknij menu',
+    mainLabel: 'Menu główne',
   },
 
-  // Pasek pokazywany gościom, których przeglądarka mówi w innym języku
-  // (tekst w języku TEJ wersji — pokazywany osobom, które jej potrzebują).
+  // Pasek pokazywany osobom, których przeglądarka mówi w innym języku.
   langOffer: {
     text: 'Ta strona jest dostępna po polsku.',
     link: 'Przejdź do wersji polskiej',
@@ -39,110 +39,84 @@ export const pl = {
   },
 
   hero: {
-    eyebrow: 'Dla hostów Airbnb, Booking.com i Vrbo',
-    titleBefore: 'Cyfrowy przewodnik dla gości, który ',
-    titleHighlight: 'odpowiada za Ciebie',
-    titleAfter: '',
-    sub: 'Kod do drzwi, WiFi, zasady domu i Twoje polecenia w okolicy — w jednym linku. Wysyłasz go raz, a gość przestaje pisać o 23:00.',
-    ctaPrimary: 'Wypróbuj 14 dni za darmo',
-    ctaSecondary: 'Zobacz, jak to działa',
-    micro: 'Bez umowy. Anulujesz w panelu jednym kliknięciem.',
-    imageAlt: 'Podróżny z plecakiem sprawdza na telefonie przewodnik po apartamencie',
-    card: {
-      label: 'Twój pobyt',
-      name: 'Malibu Park',
-      address: 'Calle Italia 10, Costa Adeje',
-      door: 'Kod do drzwi',
-      wifi: 'WiFi',
-      checkout: 'Wymeldowanie',
-      checkoutValue: 'do 12:00',
-      copy: 'Kopiuj',
-    },
-  },
-
-  platforms: {
-    label: 'Działa niezależnie od tego, skąd rezerwuje gość:',
-    items: ['Airbnb', 'Booking.com', 'Vrbo', 'rezerwacja bezpośrednia'],
+    eyebrow: 'Huespo – to Twój cyfrowy concierge',
+    title: 'Jeden link, który wita gości zamiast Ciebie.',
+    sub: 'To koniec z pisaniem tych samych wiadomości każdemu gościowi z osobna. Wysyłasz link raz, a on ma wszystko, o co zwykle pytał po nocach.',
+    ctaPrimary: 'Wypróbuj za darmo',
+    ctaPrimarySmall: 'przez 14 dni',
+    ctaSecondary: 'Zaloguj się',
+    ctaSecondarySmall: 'mam już konto',
+    platformsLabel: 'Działa niezależnie od tego, skąd rezerwuje gość:',
+    platforms: ['Airbnb', 'Booking.com', 'Vrbo', 'Holidu', 'CHECK24'],
+    imageAlt: 'Uśmiechnięty podróżny z plecakiem sprawdza na telefonie przewodnik po apartamencie',
   },
 
   problem: {
-    title: 'Te same pytania. Każdy gość. Każdy pobyt.',
-    items: [
-      {
-        q: 'Jaki jest kod do domofonu?',
-        time: '23:14',
-        cost: 'Odpisujesz w trakcie kolacji, bo gość stoi pod drzwiami z walizką.',
-      },
-      {
-        q: 'Jakie jest hasło do WiFi?',
-        time: '23:31',
-        cost: 'Kopiujesz je z notatek dziesiąty raz w tym miesiącu.',
-      },
-      {
-        q: 'Gdzie polecacie coś zjeść?',
-        time: '08:02',
-        cost: 'Znasz świetne miejsca, ale nigdy nie masz czasu, żeby je porządnie opisać.',
-      },
+    title: 'Te same pytania. Każdy gość. Za każdym razem od nowa.',
+    sub: 'Codzienne odpowiedzi na te same pytania, wysyłane ręcznie, z różnych komunikatorów — bo nic nie jest w jednym miejscu.',
+    appLabel: 'Wiadomości',
+    now: 'teraz',
+    // color: kolor ikonki komunikatora (green / violet / red)
+    messages: [
+      { from: 'Marek – apartament Malibu', color: 'green', lines: ['Witam.', 'Gdzie mogę znaleźć hasło do WiFi?'] },
+      { from: 'Wiktoria P. – apartament Laguna', color: 'violet', lines: ['Hej, przypomnij mi kod do furtki.', 'Czy mógłbyś polecić mi jakąś lokalną restaurację i kilka ciekawych atrakcji w okolicy?', 'Dzięki'] },
+      { from: 'Marcin – apartament Malibu', color: 'green', lines: ['Cześć, mam kilka pytań.', 'Gdzie mam wyrzucić śmieci?', 'Co mam zrobić z brudnymi ręcznikami i pościelą?', 'Pozdrawiam, Marcin'] },
+      { from: 'Marta – apartament Green Forest', color: 'red', lines: ['Dobry wieczór.', 'Późno, ale dopiero dotarliśmy na miejsce.', 'Gdzie możemy zaparkować?', 'Które to są drzwi i jak mam odebrać klucze?', 'Marta'] },
     ],
-    closing: 'A gdyby jedna wiadomość wystarczyła na cały pobyt?',
+    closing: 'A co gdyby jedna wiadomość wystarczyła na cały pobyt gościa?',
+    imageAlt: 'Dłoń trzyma telefon z otwartym przewodnikiem Huespo dla apartamentu Malibu Park 3001',
   },
 
   how: {
-    title: 'Jak działa cyfrowy przewodnik dla gości',
+    eyebrow: 'Jak to działa?',
+    bigNumber: '3',
+    titleAfterNumber: 'kroki i zero wiedzy technicznej.',
+    titleLine2: 'To łatwiejsze niż myślisz.',
+    sub: 'Ustawiasz raz dla każdej nieruchomości, link działa dla każdego gościa.',
     steps: [
       {
-        title: 'Uzupełniasz dane obiektu raz',
-        text: 'Wejście, kod, WiFi, zasady domu i Twoje miejsca w okolicy. Robisz to tylko raz, a potem tylko aktualizujesz.',
+        title: 'Dodajesz obiekt raz',
+        text: 'Wpisujesz dane wejścia, WiFi, zasady domu i lokalne rekomendacje. Zajmuje to tyle, co jedna dłuższa wiadomość do gościa, ale robisz to tylko raz.',
       },
       {
         title: 'Wysyłasz jeden link',
-        text: 'Wklejasz go do wiadomości powitalnej: WhatsApp, SMS, e-mail albo czat Airbnb czy Booking.',
+        text: 'Przy każdej rezerwacji wklejasz ten sam link w wiadomości powitalnej – przez WhatsApp, SMS, e-mail, czat Airbnb czy Booking, tak jak zwykle się kontaktujesz.',
       },
       {
-        title: 'Gość ma wszystko w telefonie',
-        text: 'Bez aplikacji i logowania. Otwiera link i od razu widzi to, o co zwykle pytał.',
+        title: 'Gość obsługuje się sam',
+        text: 'Kod, hasło, zasady, okoliczne restauracje – wszystko w jednym miejscu, na telefonie, bez pobierania i bez aplikacji. Otwiera link i od razu widzi to, o co zwykle pytał.',
       },
     ],
   },
 
   features: {
-    title: 'Wszystko, czego gość potrzebuje, w jednym linku',
-    intro: 'Każda funkcja odpowiada na pytanie, które dziś dostajesz w wiadomościach.',
+    eyebrow: 'Dlaczego Huespo',
+    title: 'to wszystko, czego potrzebuje Twój gość – w jednym miejscu.',
     lead: {
+      icon: 'share',
       title: 'Bez aplikacji i bez logowania',
       text: 'Link otwiera się jak zwykła strona, na każdym telefonie. Gość nie zakłada konta, nie pobiera niczego i nie zapomina hasła.',
     },
     items: [
-      { icon: 'copy', title: 'Kod i WiFi z przyciskiem „Kopiuj”', text: 'Gość kopiuje hasło jednym dotknięciem, bez przepisywania znak po znaku.' },
+      { icon: 'wifi', title: 'Kod i WiFi z przyciskiem „Kopiuj”', text: 'Gość kopiuje hasło jednym dotknięciem, bez przepisywania znak po znaku.' },
       { icon: 'key', title: 'Samodzielne lub osobiste zameldowanie', text: 'Skrzynka na klucze, kod albo spotkanie z Tobą. Obsłużysz też obiekt bez WiFi.' },
       { icon: 'map', title: 'Twój lokalny przewodnik', text: 'Restauracje, plaże i sklepy, które naprawdę polecasz, z linkami do map.' },
-      { icon: 'globe', title: '6 języków automatycznie', text: 'Przewodnik dopasowuje się do języka telefonu gościa: PL, EN, ES, DE, FR, IT.' },
-      { icon: 'offline', title: 'Działa offline', text: 'Po dodaniu do ekranu głównego gość ma przewodnik nawet bez internetu.' },
+      { icon: 'globe', title: '6 języków automatycznie', text: 'Menu i przyciski przewodnika w języku telefonu gościa: PL, EN, ES, DE, FR, IT.' },
+      { icon: 'battery', title: 'Działa offline', text: 'Po dodaniu do ekranu głównego gość ma przewodnik nawet bez internetu.' },
       { icon: 'phone', title: 'Kontakt jednym dotknięciem', text: 'Telefon, WhatsApp albo e-mail, gdy gość naprawdę potrzebuje Ciebie.' },
       { icon: 'refresh', title: 'Zmiany widoczne od razu', text: 'Zmieniasz kod lub godzinę wymeldowania, a gość widzi nową wersję bez nowego linku.' },
     ],
   },
 
-  preview: {
-    title: 'To widzi Twój gość',
-    text: 'Prawdziwy przewodnik z Huespo, otwarty na telefonie gościa. Sekcje układasz sam, pod swój obiekt, na przykład:',
-    tabs: ['Powitanie', 'Przewodnik przyjazdu', 'Parking', 'Odpady', 'Dostęp i WiFi', 'Okolica'],
-    imageAlt: 'Przewodnik Huespo dla apartamentu Parque Royal 219 na ekranie telefonu: zakładki, nazwa, adres i zdjęcie obiektu',
-    note: 'Prawdziwy przewodnik z aplikacji Huespo.',
-  },
-
-  audience: {
-    title: 'Dla kogo jest Huespo',
-    items: [
-      { title: 'Host z jednym apartamentem', text: 'Masz jedno mieszkanie i dość odpisywania na te same pytania po pracy.', plan: 'Plan Single' },
-      { title: 'Zarządca kilku obiektów', text: 'Każdy obiekt ma inny kod i inne zasady. Trzymasz je w jednym panelu.', plan: 'Plany Compact i Premium' },
-      { title: 'Firma zarządzająca najmem', text: 'Dziesiątki obiektów, własne logo i wsparcie 24h dla Twojego zespołu.', plan: 'Plan PRO' },
-    ],
-    link: 'Zobacz cennik',
+  cta: {
+    title: 'Niech Twój gość poczuje się mile widziany, zanim jeszcze otworzy drzwi.',
+    sub: 'Skonfiguruj pierwszą nieruchomość w kilka minut.',
+    button: 'Rozpocznij 14 dni za darmo',
+    imageAlt: 'Dłoń trzyma telefon z przewodnikiem Huespo otwartym na ekranie',
   },
 
   pricing: {
-    title: 'Cennik — wybierz plan',
+    title: 'Wybierz plan',
     sub: 'Zacznij od 14-dniowego bezpłatnego okresu próbnego. Anuluj w dowolnym momencie.',
     cycleLabel: 'Okres rozliczenia',
     monthly: 'Miesięcznie',
@@ -158,47 +132,48 @@ export const pl = {
       premium: 'Wyróżnij się',
       pro: 'Dla firm',
     },
+    // n = liczba w lewej kolumnie; bez n = funkcja z ✓
     features: {
       single: [
-        { text: '1 obiekt', check: false },
-        { text: 'Język urządzenia + EN', check: false },
-        { text: '1 lokalna rekomendacja', check: false },
+        { n: '1', text: 'Obiekt' },
+        { n: '1', text: 'Język urządzenia + EN' },
+        { n: '1', text: 'Lokalna rekomendacja' },
       ],
       compact: [
-        { text: '10 obiektów', check: false },
-        { text: '6 języków', check: false },
-        { text: '4 lokalne rekomendacje', check: false },
-        { text: 'Generator kodu QR', check: true },
+        { n: '10', text: 'Obiektów' },
+        { n: '6', text: 'Języków' },
+        { n: '4', text: 'Lokalne rekomendacje' },
+        { text: 'Generator kodu QR' },
       ],
       premium: [
-        { text: '30 obiektów', check: false },
-        { text: '6 języków', check: false },
-        { text: '12 lokalnych rekomendacji', check: false },
-        { text: 'Generator kodu QR', check: true },
-        { text: 'Własne logo', check: true },
-        { text: 'Sortowanie obiektów', check: true },
+        { n: '30', text: 'Obiektów' },
+        { n: '6', text: 'Języków' },
+        { n: '12', text: 'Lokalnych rekomendacji' },
+        { text: 'Generator kodu QR' },
+        { text: 'Własne logo' },
+        { text: 'Sortowanie obiektów' },
       ],
       pro: [
-        { text: '100 obiektów', check: false },
-        { text: '6 języków', check: false },
-        { text: '40 lokalnych rekomendacji', check: false },
-        { text: 'Generator kodu QR', check: true },
-        { text: 'Własne logo', check: true },
-        { text: 'Sortowanie obiektów', check: true },
-        { text: 'Wsparcie 24h', check: true },
+        { n: '100', text: 'Obiektów' },
+        { n: '6', text: 'Języków' },
+        { n: '40', text: 'Lokalnych rekomendacji' },
+        { text: 'Generator kodu QR' },
+        { text: 'Własne logo' },
+        { text: 'Sortowanie obiektów' },
+        { text: 'Wsparcie 24h' },
       ],
     },
     liveUpdate: 'Live update',
     cta: 'Wybierz plan',
-    note: 'Ceny brutto. Płatności obsługuje Paddle — ostateczna kwota i waluta są potwierdzane w kasie. Plan zmieniasz lub anulujesz w dowolnym momencie z panelu hosta.',
+    note: 'Ceny brutto. Płatności obsługuje Stripe — ostateczna kwota jest potwierdzana w kasie. Plan zmieniasz lub anulujesz w dowolnym momencie z panelu hosta.',
   },
 
   faq: {
     title: 'Najczęściej zadawane pytania',
     items: [
       {
-        q: 'Czym jest cyfrowy przewodnik dla gości (welcome book)?',
-        a: 'To strona internetowa z wszystkim, czego gość potrzebuje w czasie pobytu: wejściem, kodem do drzwi, WiFi, zasadami domu i poleceniami w okolicy. Zastępuje papierowy segregator i dziesiątki wiadomości. W Huespo wysyłasz ją gościowi jako jeden link.',
+        q: 'Czym jest cyfrowy przewodnik dla gości?',
+        a: 'To strona internetowa z wszystkim, czego gość potrzebuje w czasie pobytu: wejściem, kodem do drzwi, WiFi, zasadami domu i poleceniami w okolicy. Zastępuje papierowy segregator (welcome book) i dziesiątki wiadomości. W Huespo wysyłasz ją gościowi jako jeden link.',
       },
       {
         q: 'Czy gość musi instalować aplikację lub się logować?',
@@ -209,16 +184,12 @@ export const pl = {
         a: 'Tak. Huespo nie zależy od platformy rezerwacyjnej. Link wysyłasz tam, gdzie i tak piszesz do gościa: w czacie platformy, przez WhatsApp, SMS albo e-mail.',
       },
       {
-        q: 'Co jeśli mój obiekt nie ma WiFi albo przekazuję klucze osobiście?',
-        a: 'Huespo obsługuje oba modele. Możesz opisać samodzielne zameldowanie z kodem albo spotkanie z gościem. Pola, które Cię nie dotyczą, po prostu się nie wyświetlają.',
-      },
-      {
         q: 'Kto widzi dane mojego obiektu?',
         a: 'Tylko osoby, które mają link do przewodnika. Ty decydujesz, komu go wysyłasz, tak samo jak dziś decydujesz, komu podajesz kod do drzwi.',
       },
       {
         q: 'W jakim języku gość widzi przewodnik?',
-        a: 'Przyciski i nagłówki dopasowują się automatycznie do języka telefonu gościa (PL, EN, ES, DE, FR, IT). Treści, które wpisujesz sam, wyświetlają się w języku, w którym je napiszesz.',
+        a: 'Menu, przyciski i nagłówki dopasowują się automatycznie do języka telefonu gościa (PL, EN, ES, DE, FR, IT). Treści, które wpisujesz sam, wyświetlają się w języku, w którym je napiszesz.',
       },
       {
         q: 'Jak działa 14-dniowy okres próbny?',
@@ -228,23 +199,24 @@ export const pl = {
         q: 'Czy mogę zmienić plan lub zrezygnować?',
         a: 'Tak, w każdej chwili z panelu hosta. Rezygnacja działa od końca opłaconego okresu, do tego czasu korzystasz z planu bez zmian.',
       },
+      {
+        q: 'Co jeśli mój obiekt nie ma WiFi albo przekazuję klucze osobiście?',
+        a: 'Huespo obsługuje oba modele. Możesz opisać samodzielne zameldowanie z kodem albo spotkanie z gościem. Pola, które Cię nie dotyczą, po prostu się nie wyświetlają.',
+      },
     ],
   },
 
   form: {
     title: 'Masz pytanie albo chcesz dołączyć do testów?',
     text: 'Napisz kilka słów o swoich obiektach. Odpowiemy na podany adres e-mail.',
-    name: 'Imię',
+    name: 'Nazwa / Imię',
     email: 'E-mail',
-    properties: 'Liczba obiektów',
-    propertiesPlaceholder: 'Wybierz',
-    propertiesOptions: ['1', '2–5', '6–15', '16+'],
-    message: 'Wiadomość',
+    phone: 'Numer telefonu',
+    message: 'Treść',
     optional: 'opcjonalnie',
     privacyBefore: 'Akceptuję ',
     privacyLink: 'Politykę Prywatności',
     privacyAfter: '.',
-    newsletter: 'Chcę otrzymywać newsletter i informacje o Huespo.',
     submit: 'Wyślij wiadomość',
     sending: 'Wysyłanie…',
     success: 'Dziękujemy. Wiadomość dotarła, odezwiemy się na podany e-mail.',
@@ -254,15 +226,8 @@ export const pl = {
     errorPrivacy: 'Zaznacz zgodę, żebyśmy mogli odpowiedzieć na wiadomość.',
   },
 
-  finalCta: {
-    title: 'Twoja następna wiadomość powitalna może być ostatnią, którą piszesz ręcznie.',
-    button: 'Wypróbuj 14 dni za darmo',
-  },
-
   footer: {
     description: 'Cyfrowy przewodnik dla gości najmu krótkoterminowego.',
-    product: 'Produkt',
-    legal: 'Informacje',
     terms: 'Regulamin',
     privacy: 'Polityka Prywatności',
     contact: 'Kontakt',

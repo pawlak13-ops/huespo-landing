@@ -1,101 +1,108 @@
 ---
 import { Picture } from 'astro:assets';
-import heroImage from '../../assets/hero-traveler.jpg';
+import bg from '../../assets/bg-streaks.jpg';
+import guest from '../../assets/hero-guest.jpg';
 import type { Content } from '../../i18n/pl';
+import { LINKS } from '../../config/links';
 
 interface Props { c: Content }
 const { c } = Astro.props;
 const h = c.hero;
 ---
-<section class="hero">
-  <div class="container hero-grid">
+<section class="hero on-orange" aria-labelledby="hero-title">
+  <div class="hero-bg fill-picture" aria-hidden="true">
+    <Picture src={bg} formats={['avif', 'webp']} widths={[768, 1366]} sizes="100vw" alt="" loading="eager" fetchpriority="high" />
+  </div>
+
+  <div class="hero-photo" aria-hidden="false">
+    <Picture
+      src={guest}
+      formats={['avif', 'webp']}
+      widths={[480, 911]}
+      sizes="(max-width: 820px) 100vw, 60vw"
+      alt={h.imageAlt}
+      loading="eager"
+    />
+  </div>
+
+  <div class="container hero-inner">
     <div class="hero-copy">
-      <p class="hero-eyebrow">{h.eyebrow}</p>
-      <h1>
-        {h.titleBefore}<span class="accent">{h.titleHighlight}</span>{h.titleAfter}
+      <h1 id="hero-title">
+        <span class="eyebrow">{h.eyebrow}</span>
+        <span class="hero-title">{h.title}</span>
       </h1>
       <p class="hero-sub">{h.sub}</p>
       <div class="hero-ctas">
-        <a class="btn btn--primary" href="#cennik">{h.ctaPrimary}</a>
-        <a class="btn btn--outline" href="#jak-to-dziala">{h.ctaSecondary}</a>
-      </div>
-      <p class="hero-micro">{h.micro}</p>
-    </div>
-
-    <div class="hero-visual">
-      <div class="hero-frame fill-picture">
-        <Picture
-          src={heroImage}
-          formats={['avif', 'webp']}
-          widths={[480, 768, 1100]}
-          sizes="(max-width: 900px) 92vw, 520px"
-          alt={h.imageAlt}
-          loading="eager"
-          fetchpriority="high"
-          class="hero-img"
-        />
-      </div>
-
-      <div class="guest-card" aria-hidden="true">
-        <p class="gc-label">{h.card.label}</p>
-        <p class="gc-name display">{h.card.name}</p>
-        <p class="gc-addr">{h.card.address}</p>
-        <div class="gc-rows">
-          <div class="gc-row"><span class="gc-k">{h.card.door}</span><span class="gc-v">3457</span><span class="gc-copy">{h.card.copy}</span></div>
-          <div class="gc-row"><span class="gc-k">{h.card.wifi}</span><span class="gc-v">MalibuPark_5G</span><span class="gc-copy">{h.card.copy}</span></div>
-          <div class="gc-row"><span class="gc-k">{h.card.checkout}</span><span class="gc-v">{h.card.checkoutValue}</span></div>
-        </div>
+        <a class="btn btn--cream" href="#cennik">{h.ctaPrimary} <small>{h.ctaPrimarySmall}</small></a>
+        <a class="btn btn--ghost" href={LINKS.login}>{h.ctaSecondary} <small>– {h.ctaSecondarySmall}</small></a>
       </div>
     </div>
+
+    <p class="platforms">
+      <span>{h.platformsLabel}</span>
+      {h.platforms.map((p) => <strong>{p}</strong>)}
+    </p>
   </div>
 </section>
 
 <style>
-  .hero { padding: clamp(40px, 7vw, 96px) 0 clamp(56px, 8vw, 104px); overflow: hidden; }
-  .hero-grid { display: grid; grid-template-columns: 1.08fr 0.92fr; gap: clamp(40px, 6vw, 80px); align-items: center; }
-  .hero-eyebrow { color: var(--text-muted); font-size: 15px; margin-bottom: 20px; }
-  h1 { max-width: 13ch; }
-  .hero-sub { margin-top: 24px; max-width: 34em; font-size: clamp(17px, 1.2vw + 10px, 20px); color: var(--text-body); }
-  .hero-ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
-  .hero-micro { margin-top: 16px; font-size: 14px; color: var(--text-muted); }
-
-  .hero-visual { position: relative; padding: 0 0 48px 48px; }
-  .hero-frame {
-    aspect-ratio: 4 / 5; border-radius: var(--radius-frame); overflow: hidden;
-    border: 1px solid var(--brand-border); box-shadow: var(--shadow-card);
-    background: var(--brand-orange);
+  .hero {
+    position: relative; overflow: hidden; color: var(--white);
+    background: var(--orange-1);
+    padding: calc(var(--header-h) + clamp(40px, 6vw, 72px)) 0 clamp(28px, 4vw, 44px);
+    min-height: min(820px, 100svh);
+    display: flex;
   }
-  .hero-frame :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: 62% 30%; }
-
-  .guest-card {
-    position: absolute; left: 0; bottom: 0; width: min(330px, 82%);
-    background: var(--white); border: 1px solid var(--brand-border); border-radius: var(--radius-card);
-    box-shadow: var(--shadow-lift); padding: 22px 22px 14px;
-  }
-  .gc-label { font-size: 13px; color: var(--text-muted); }
-  .gc-name { font-size: 24px; color: var(--text-heading); margin-top: 4px; line-height: 1.15; }
-  .gc-addr { font-size: 13.5px; color: var(--text-muted); margin-top: 4px; }
-  .gc-rows { margin: 16px 0 0; }
-  .gc-row {
-    display: grid; grid-template-columns: 1fr auto; grid-template-areas: 'dt copy' 'dd copy';
-    align-items: center; padding: 11px 0; border-top: 1px solid var(--brand-beige);
-  }
-  .gc-k { grid-area: dt; font-size: 12.5px; color: var(--text-muted); }
-  .gc-v { grid-area: dd; margin: 0; font-family: var(--font-display); font-size: 17px; color: var(--text-heading); }
-  .gc-copy {
-    grid-area: copy; font-size: 12.5px; color: var(--text-heading);
-    border: 1px solid var(--brand-border); border-radius: 100px; padding: 4px 12px;
+  .hero-bg { position: absolute; inset: 0; }
+  .hero-bg :global(img) { object-position: 60% 50%; }
+  /* Delikatne przyciemnienie za tekstem, żeby biały tekst był czytelny */
+  .hero::before {
+    content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background:
+      radial-gradient(70% 80% at 18% 52%, rgba(214, 72, 0, 0.42), transparent 70%),
+      linear-gradient(180deg, rgba(200, 70, 0, 0.18), transparent 30%, transparent 75%, rgba(200, 70, 0, 0.25));
   }
 
-  @media (max-width: 900px) {
-    .hero-grid { grid-template-columns: 1fr; }
-    h1 { max-width: 15ch; }
-    .hero-visual { max-width: 560px; padding: 0; }
-    .hero-frame { aspect-ratio: 5 / 4; }
-    .guest-card { position: relative; left: auto; bottom: auto; margin: -64px 0 0 16px; width: min(330px, calc(100% - 32px)); }
+  .hero-photo {
+    position: absolute; z-index: 1; top: 0; bottom: 0; right: 0; width: 58%;
+    -webkit-mask-image: radial-gradient(85% 95% at 68% 50%, #000 52%, transparent 78%);
+            mask-image: radial-gradient(85% 95% at 68% 50%, #000 52%, transparent 78%);
   }
-  @media (max-width: 480px) {
-    .hero-ctas .btn { width: 100%; }
-    .guest-card { padding: 18px 18px 10px; margin-top: -48px; }
+  .hero-photo :global(picture), .hero-photo :global(img) { display: block; width: 100%; height: 100%; }
+  .hero-photo :global(img) { object-fit: cover; object-position: 55% 35%; }
+
+  .hero-inner { position: relative; z-index: 2; display: flex; flex-direction: column; justify-content: space-between; gap: 48px; }
+  .hero-copy { max-width: 760px; }
+  .hero-sub { max-width: 34em; }
+  h1 { color: var(--white); }
+  h1 .eyebrow { margin-bottom: 22px; font-size: 13px; }
+  .hero-title {
+    display: block; font-weight: 500; font-size: clamp(38px, 4.6vw, 64px);
+    text-shadow: 0 2px 18px rgba(150, 50, 0, 0.25);
+  }
+  .hero-sub { margin-top: 26px; max-width: 32em; font-size: clamp(16px, 0.5vw + 13px, 18px); text-shadow: 0 1px 10px rgba(150, 50, 0, 0.35); }
+  .hero-ctas { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; margin-top: 36px; }
+  .hero-ctas .btn { min-width: 300px; }
+
+  .platforms {
+    display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center; gap: 8px 22px;
+    font-size: 15px; text-shadow: 0 1px 8px rgba(150, 50, 0, 0.35);
+  }
+  .platforms strong { font-family: var(--font-display); font-weight: 500; font-size: 17px; }
+
+  @media (max-width: 820px) {
+    .hero { min-height: 0; padding-top: 0; }
+    .hero-photo {
+      position: relative; width: auto; height: calc(var(--header-h) + 270px); order: -1;
+      margin: 0 0 -70px;
+      -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent 100%);
+              mask-image: linear-gradient(180deg, #000 55%, transparent 100%);
+    }
+    .hero { flex-direction: column; }
+    .hero-inner { margin-top: 0; }
+    .hero::before { background: linear-gradient(180deg, transparent 20%, rgba(214, 72, 0, 0.35) 55%, rgba(200, 70, 0, 0.25)); }
+    .hero-ctas, .hero-ctas .btn { width: 100%; min-width: 0; }
+    .platforms { justify-content: flex-start; font-size: 14px; gap: 6px 16px; }
+    .platforms span { flex-basis: 100%; }
   }
 </style>

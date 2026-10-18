@@ -1,14 +1,11 @@
 import { pl, type Content } from './pl';
-import { es } from './es';
-import { en } from './en';
 
 export type Lang = 'pl' | 'es' | 'en';
 
 /** Wersje językowe dostępne na stronie (kolejność = kolejność w przełączniku). */
 export const CONTENT: Partial<Record<Lang, Content>> = {
   pl,
-  es,
-  en,
+  // es, en — wracają po przetłumaczeniu nowej wersji (folder later-translations/)
 };
 
 export const LANGS = Object.keys(CONTENT) as Lang[];

@@ -1,62 +1,96 @@
 ---
+import { Picture } from 'astro:assets';
+import handPhone from '../../assets/hand-phone-guest.png';
+import Icon from '../ui/Icon.astro';
 import type { Content } from '../../i18n/pl';
 interface Props { c: Content }
 const { c } = Astro.props;
+const p = c.problem;
 ---
-<div class="platforms">
-  <div class="container platforms-inner">
-    <span class="muted">{c.platforms.label}</span>
-    <ul>
-      {c.platforms.items.map((p) => <li>{p}</li>)}
-    </ul>
-  </div>
-</div>
-
-<section class="section section--beige problem" aria-labelledby="problem-title">
+<section class="section problem" aria-labelledby="problem-title">
   <div class="container problem-grid">
-    <div class="problem-head">
-      <h2 id="problem-title">{c.problem.title}</h2>
-      <p class="problem-closing display">{c.problem.closing}</p>
+    <div class="problem-visual reveal">
+      <Picture
+        src={handPhone}
+        formats={['avif', 'webp']}
+        widths={[300, 547]}
+        sizes="(max-width: 820px) 60vw, 360px"
+        alt={p.imageAlt}
+        loading="lazy"
+      />
     </div>
-    <ol class="chat" role="list">
-      {c.problem.items.map((m, i) => (
-        <li class="chat-item reveal" style={`--i:${i}`}>
-          <p class="bubble">
-            <span class="bubble-text">{m.q}</span>
-            <time class="bubble-time">{m.time}</time>
-          </p>
-          <p class="bubble-cost">{m.cost}</p>
-        </li>
-      ))}
-    </ol>
+
+    <div class="problem-copy">
+      <h2 id="problem-title">{p.title}</h2>
+      <p class="problem-sub">{p.sub}</p>
+
+      <ul class="notes" role="list">
+        {p.messages.map((m, i) => (
+          <li class:list={['note', `note--${i + 1}`, 'reveal']}>
+            <p class="note-head">
+              <span class:list={['app', `app--${m.color}`]} aria-hidden="true"><Icon name="chat" size={11} /></span>
+              <span class="app-name">{p.appLabel}</span>
+              <span class="note-time">{p.now}</span>
+            </p>
+            <p class="note-from">{m.from}</p>
+            <p class="note-body">{m.lines.map((l) => <span>{l}</span>)}</p>
+          </li>
+        ))}
+      </ul>
+      <p class="closing">{p.closing}</p>
+    </div>
   </div>
 </section>
 
 <style>
-  .platforms { border-top: 1px solid var(--brand-border); border-bottom: 1px solid var(--brand-border); padding: 20px 0; }
-  .platforms-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 20px; font-size: 15px; }
-  .platforms ul { list-style: none; display: flex; flex-wrap: wrap; gap: 8px 22px; padding: 0; margin: 0; }
-  .platforms li { font-family: var(--font-display); color: var(--text-heading); }
-
-  .problem-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(40px, 6vw, 96px); align-items: start; }
-  .problem-head { position: sticky; top: 120px; }
-  .problem-closing { margin-top: 28px; font-size: clamp(24px, 2vw, 28px); line-height: 1.25; color: var(--accent-text); max-width: 18em; }
-
-  .chat { list-style: none; padding: 0; margin: 0; display: grid; gap: 28px; }
-  .chat-item:nth-child(2) { margin-left: clamp(0px, 4vw, 56px); }
-  .chat-item:nth-child(3) { margin-left: clamp(0px, 2vw, 28px); }
-  .bubble {
-    position: relative; display: inline-flex; align-items: flex-end; gap: 14px;
-    background: var(--white); border: 1px solid var(--brand-border);
-    border-radius: 18px 18px 18px 4px; padding: 14px 18px; box-shadow: var(--shadow-card);
-    font-size: clamp(17px, 1.3vw, 20px); color: var(--text-heading);
+  .problem { overflow: hidden; background: var(--cream); }
+  .problem::before {
+    content: ''; position: absolute; left: -10%; top: 0; width: 60%; height: 100%; pointer-events: none;
+    background: radial-gradient(50% 50% at 50% 45%, rgba(255, 114, 30, 0.55), rgba(255, 168, 90, 0.25) 45%, transparent 72%);
+    filter: blur(10px);
   }
-  .bubble-time { font-size: 12px; color: var(--text-muted); white-space: nowrap; }
-  .bubble-cost { margin-top: 10px; color: var(--text-muted); font-size: 15.5px; max-width: 30em; padding-left: 4px; }
+  .problem-grid { position: relative; display: grid; grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr); gap: clamp(32px, 5vw, 72px); align-items: center; }
 
-  @media (max-width: 860px) {
+  .problem-visual { justify-self: center; width: min(360px, 100%); margin-bottom: calc(-1 * var(--section-y)); align-self: end;
+    -webkit-mask-image: linear-gradient(180deg, #000 80%, transparent); mask-image: linear-gradient(180deg, #000 80%, transparent); }
+  .problem-visual :global(img) { width: 100%; height: auto; filter: drop-shadow(0 18px 30px rgba(120, 50, 10, 0.18)); }
+
+  .problem-copy { text-align: right; }
+  h2 { color: var(--orange-heading); font-weight: 400; max-width: 17em; margin-left: auto; }
+  .problem-sub { margin: 18px 0 0 auto; max-width: 30em; color: var(--orange-text); font-size: 15.5px; }
+
+  .notes { list-style: none; padding: 0; margin: 36px 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 18px 22px; text-align: left; align-items: start; }
+  .note {
+    background: var(--white); border-radius: 14px; padding: 12px 14px 14px;
+    box-shadow: 0 8px 24px rgba(120, 50, 10, 0.12); font-size: 13.5px; line-height: 1.45; color: var(--ink);
+  }
+  .note--1 { margin-right: 18%; }
+  .note--2 { margin-top: 24px; }
+  .note--3 { margin-top: -6px; }
+  .note--4 { margin-top: 30px; }
+  .note-head { display: flex; align-items: center; gap: 7px; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-soft); }
+  .note-time { margin-left: auto; text-transform: none; letter-spacing: 0; }
+  .app { width: 18px; height: 18px; border-radius: 5px; display: grid; place-items: center; color: var(--white); }
+  .app--green { background: #2fbf5b; }
+  .app--violet { background: #8b5cf6; }
+  .app--red { background: #ef4b5c; }
+  .note-from { margin-top: 6px; font-weight: 500; }
+  .note-body { margin-top: 2px; display: grid; }
+
+  .closing {
+    position: relative; margin-top: clamp(36px, 4vw, 56px); text-align: center;
+    font-family: var(--font-display); text-transform: uppercase; letter-spacing: .06em; font-size: 15px; color: var(--orange-text);
+  }
+
+  @media (max-width: 820px) {
     .problem-grid { grid-template-columns: 1fr; }
-    .problem-head { position: static; }
-    .chat-item:nth-child(n) { margin-left: 0; }
+    .problem::before { width: 120%; height: 55%; left: -10%; }
+    .problem-visual { width: min(200px, 52%); margin-bottom: 0; align-self: auto; }
+    .problem-copy { text-align: left; }
+    .problem-sub { margin-left: 0; }
+    .notes { grid-template-columns: 1fr; gap: 12px; }
+    .note--1, .note--2, .note--3, .note--4 { margin: 0; }
+    .note--2, .note--4 { margin-left: 10%; }
+    .note--1, .note--3 { margin-right: 10%; }
   }
 </style>

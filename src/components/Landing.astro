@@ -6,8 +6,6 @@ import Hero from './sections/Hero.astro';
 import Problem from './sections/Problem.astro';
 import How from './sections/How.astro';
 import Features from './sections/Features.astro';
-import Preview from './sections/Preview.astro';
-import Audience from './sections/Audience.astro';
 import Pricing from './sections/Pricing.astro';
 import Faq from './sections/Faq.astro';
 import ContactForm from './sections/ContactForm.astro';
@@ -73,15 +71,13 @@ const jsonLd = [
   },
 ];
 ---
-<BaseLayout c={c} lang={lang} title={c.meta.title} path={LANG_PATHS[lang]} jsonLd={jsonLd}>
+<BaseLayout c={c} lang={lang} title={c.meta.title} path={LANG_PATHS[lang]} jsonLd={jsonLd} transparentHeader>
   <Hero c={c} />
   <Problem c={c} />
   <How c={c} />
   <Features c={c} />
-  <Preview c={c} />
-  <Audience c={c} />
+  <FinalCta c={c} />
   <Pricing c={c} lang={lang} />
   <Faq c={c} />
   <ContactForm c={c} lang={lang} />
-  <FinalCta c={c} />
 </BaseLayout>
