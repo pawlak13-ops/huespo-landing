@@ -65,16 +65,15 @@ const home = LANG_PATHS[lang];
     color: var(--orange-text);
     transition: background-color .25s ease, color .25s ease, box-shadow .25s ease;
   }
-  :global(.site-header.is-scrolled) { box-shadow: 0 1px 0 var(--line-light); }
   /* Nad zdjęciem w hero: przezroczysty, białe logo i linki */
   .site-header.is-transparent:not(.is-scrolled):not(.menu-open) {
     background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; color: var(--white);
   }
   .header-inner {
     display: flex; align-items: center; gap: 24px; min-height: var(--header-h);
-    border-bottom: 1px solid currentColor; border-bottom-color: color-mix(in srgb, currentColor 45%, transparent);
+    border-bottom: 1px solid var(--orange-2);
   }
-  :global(.site-header.is-scrolled) .header-inner { border-bottom-color: transparent; }
+  .site-header.is-transparent:not(.is-scrolled):not(.menu-open) .header-inner { border-bottom-color: var(--white); }
 
   .logo { flex: none; display: block; position: relative; }
   .logo img { height: 38px; width: auto; }
@@ -98,9 +97,11 @@ const home = LANG_PATHS[lang];
     color: var(--orange-text); border: 1px solid transparent;
     transition: background-color .15s, border-color .15s, filter .15s;
   }
-  .auth-login { background: var(--cream); }
-  .auth-register { background: var(--beige); border-color: var(--orange-2); }
-  .auth a:hover { filter: brightness(0.97); }
+  .auth .auth-login { background: var(--cream); border-color: var(--orange-2); }
+  .auth .auth-register { background: var(--orange-1); border-color: var(--orange-1); color: var(--white); }
+  .auth a:hover { filter: brightness(0.96); }
+  /* Nad zdjęciem w hero ramka niepotrzebna — krem odcina się od pomarańczu */
+  .site-header.is-transparent:not(.is-scrolled):not(.menu-open) .auth .auth-login { border-color: var(--cream); }
 
   .lang-switch { list-style: none; display: flex; gap: 2px; padding: 0; margin: 0; }
   .lang-switch a {

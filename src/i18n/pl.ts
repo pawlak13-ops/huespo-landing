@@ -142,7 +142,8 @@ export const pl = {
       liveUpdate: 'Live update',
     },
     cta: 'Wybierz plan',
-    note: 'Ceny brutto. Płatności obsługuje Stripe — ostateczna kwota jest potwierdzana w kasie. Plan zmieniasz lub anulujesz w dowolnym momencie z panelu hosta.',
+    note: 'Ceny brutto. Płatności obsługuje Stripe — ostateczna kwota jest potwierdzana w kasie.',
+    note2: 'Plan zmieniasz lub anulujesz w dowolnym momencie z panelu hosta.',
   },
 
   faq: {
