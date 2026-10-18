@@ -27,10 +27,12 @@ const { c } = Astro.props;
       ))}
     </div>
   </div>
+  <div class="blend blend--top" style="--blend: var(--cream); height: 56px" aria-hidden="true"></div>
 </section>
 
 <style>
-  .faq { background: var(--orange-1); color: var(--white); }
+  .faq { position: relative; background: var(--orange-1); color: var(--white); }
+  .faq-grid { position: relative; z-index: 2; }
   .faq-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 64px); align-items: stretch; }
 
   .glass-card {
@@ -43,16 +45,16 @@ const { c } = Astro.props;
   .glass-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(160deg, rgba(220, 80, 0, 0.35), transparent 60%); }
   h2 { position: relative; z-index: 1; color: var(--white); max-width: 10em; text-shadow: 0 2px 14px rgba(150, 50, 0, 0.3); }
 
-  .faq-list { padding: clamp(32px, 5vw, 64px) var(--gutter) clamp(32px, 5vw, 64px) 0; max-width: 620px; }
+  .faq-list { padding: clamp(60px, 6vw, 80px) var(--gutter) clamp(32px, 5vw, 64px) 0; max-width: 620px; }
   details { border-bottom: 1px solid var(--line-white); }
   summary {
     list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px;
-    padding: 18px 0; font-family: var(--font-display); font-size: clamp(16px, 1.2vw, 18px); line-height: 1.35;
+    padding: 16px 0; font-family: var(--font-display); font-weight: 300; font-size: 16px; line-height: 1.35;
   }
   summary::-webkit-details-marker { display: none; }
   summary :global(.chev) { flex: none; transition: transform .2s ease; }
   details[open] summary :global(.chev) { transform: rotate(180deg); }
-  details p { padding: 0 32px 20px 0; font-size: 15.5px; line-height: 1.6; }
+  details p { padding: 0 32px 18px 0; font-size: 14.5px; line-height: 1.6; }
 
   @media (max-width: 820px) {
     .faq-grid { grid-template-columns: 1fr; gap: 0; }

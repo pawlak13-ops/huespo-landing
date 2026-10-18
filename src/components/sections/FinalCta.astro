@@ -3,6 +3,7 @@ import { Picture } from 'astro:assets';
 import handPhone from '../../assets/cta-hand-phone.jpg';
 import screen from '../../assets/guest-page-screenshot.jpg';
 import type { Content } from '../../i18n/pl';
+import { LINKS } from '../../config/links';
 interface Props { c: Content }
 const { c } = Astro.props;
 const t = c.cta;
@@ -12,7 +13,7 @@ const t = c.cta;
     <div class="cta-copy">
       <h2 id="cta-title">{t.title}</h2>
       <p class="cta-sub">{t.sub}</p>
-      <a class="btn btn--ghost cta-btn" href="#cennik">{t.button}</a>
+      <a class="btn btn--ghost cta-btn" href={`${LINKS.register}?lang=pl`}>{t.button}</a>
     </div>
 
     <figure class="cta-visual">
@@ -30,6 +31,8 @@ const t = c.cta;
       </div>
     </figure>
   </div>
+  <div class="blend blend--top" style="--blend: var(--beige)" aria-hidden="true"></div>
+  <div class="blend blend--bottom" style="--blend: var(--cream)" aria-hidden="true"></div>
 </section>
 
 <style>
@@ -39,10 +42,10 @@ const t = c.cta;
     background: linear-gradient(100deg, #f26a1b 0%, #ff7a2a 45%, #ff8931 100%);
     padding-top: clamp(56px, 7vw, 88px);
   }
-  .cta-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: 32px; align-items: end; }
+  .cta-grid { position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: 32px; align-items: end; }
   .cta-copy { align-self: center; padding-bottom: clamp(56px, 7vw, 88px); }
   h2 { color: var(--white); max-width: 16em; text-shadow: 0 2px 14px rgba(150, 50, 0, 0.25); }
-  .cta-sub { margin-top: 20px; font-size: 16px; }
+  .cta-sub { margin-top: 16px; font-size: 15px; }
   .cta-btn { margin-top: 36px; min-width: 300px; }
 
   .cta-visual { position: relative; margin: 0; justify-self: center; width: min(460px, 100%); }

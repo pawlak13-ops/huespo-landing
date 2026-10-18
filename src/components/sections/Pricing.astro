@@ -102,8 +102,8 @@ const prices = (i: number) => JSON.stringify(
     background: var(--cream);
   }
   .pricing-inner { max-width: 1000px; }
-  h2 { font-size: 30px; line-height: 1.2; letter-spacing: -0.025em; color: var(--app-fg); }
-  .pricing-sub { margin-top: 8px; font-size: 14px; color: var(--app-muted); }
+  h2 { line-height: 1.2; color: var(--orange-heading); }
+  .pricing-sub { margin-top: 8px; font-size: 14px; color: var(--orange-text); }
 
   .pricing-controls { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0; }
   .toggle { display: inline-flex; border: 1px solid var(--app-border); border-radius: 999px; background: #fff; padding: 4px; font-size: 14px; }
@@ -130,7 +130,7 @@ const prices = (i: number) => JSON.stringify(
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.22);
   }
   .cur { margin-right: 6px; font-size: 12.75px; color: var(--app-muted); }
-  .amount { font-weight: 700; color: #ff721e; }
+  .amount { font-weight: 700; color: var(--orange-2); }
   .plan-badge {
     margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid rgba(166, 166, 166, 0.6);
     font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap;
@@ -138,7 +138,7 @@ const prices = (i: number) => JSON.stringify(
   .plan-features { list-style: none; margin: 0; padding: 0; font-size: 11px; line-height: 1.5; }
   .plan-features li { margin-bottom: 6px; white-space: nowrap; }
   .plan-features .check { display: flex; align-items: center; gap: 6px; }
-  .tick { flex: none; font-size: 12px; font-weight: 700; line-height: 1; color: #ff721e; }
+  .tick { flex: none; font-size: 12px; font-weight: 700; line-height: 1; color: var(--orange-2); }
   .plan-spacer { flex: 1; min-height: 12px; }
 
   .plan-cta {

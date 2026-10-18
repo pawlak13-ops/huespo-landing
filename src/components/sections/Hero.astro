@@ -33,7 +33,7 @@ const h = c.hero;
       </h1>
       <p class="hero-sub">{h.sub}</p>
       <div class="hero-ctas">
-        <a class="btn btn--cream" href="#cennik">{h.ctaPrimary} <small>{h.ctaPrimarySmall}</small></a>
+        <a class="btn btn--cream" href={`${LINKS.register}?lang=pl`}>{h.ctaPrimary} <small>{h.ctaPrimarySmall}</small></a>
         <a class="btn btn--ghost" href={LINKS.login}>{h.ctaSecondary} <small>– {h.ctaSecondarySmall}</small></a>
       </div>
     </div>
@@ -43,13 +43,14 @@ const h = c.hero;
       {h.platforms.map((p) => <strong>{p}</strong>)}
     </p>
   </div>
+  <div class="blend blend--bottom" style="--blend: var(--cream)" aria-hidden="true"></div>
 </section>
 
 <style>
   .hero {
     position: relative; overflow: hidden; color: var(--white);
     background: var(--orange-1);
-    padding: calc(var(--header-h) + clamp(40px, 6vw, 72px)) 0 clamp(28px, 4vw, 44px);
+    padding: calc(var(--header-h) + clamp(40px, 6vw, 72px)) 0 clamp(96px, 10vw, 150px);
     min-height: min(820px, 100svh);
     display: flex;
   }
@@ -72,23 +73,23 @@ const h = c.hero;
   .hero-photo :global(img) { object-fit: cover; object-position: 55% 35%; }
 
   .hero-inner { position: relative; z-index: 2; display: flex; flex-direction: column; justify-content: space-between; gap: 48px; }
-  .hero-copy { max-width: 700px; }
+  .hero-copy { max-width: 600px; }
   .hero-sub { max-width: 34em; }
   h1 { color: var(--white); }
   h1 .eyebrow { margin-bottom: 22px; font-size: 13px; }
   .hero-title {
-    display: block; font-weight: 400;
+    display: block; font-weight: 300;
     text-shadow: 0 2px 18px rgba(150, 50, 0, 0.25);
   }
-  .hero-sub { margin-top: 24px; max-width: 32em; font-size: clamp(17px, 1.2vw + 10px, 20px); text-shadow: 0 1px 10px rgba(150, 50, 0, 0.35); }
+  .hero-sub { margin-top: 20px; max-width: 32em; font-size: 17px; text-shadow: 0 1px 10px rgba(150, 50, 0, 0.35); }
   .hero-ctas { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; margin-top: 36px; }
   .hero-ctas .btn { min-width: 300px; }
 
   .platforms {
     display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center; gap: 8px 22px;
-    font-size: 15px; text-shadow: 0 1px 8px rgba(150, 50, 0, 0.35);
+    font-size: 14px; text-shadow: 0 1px 8px rgba(150, 50, 0, 0.35);
   }
-  .platforms strong { font-family: var(--font-display); font-weight: 500; font-size: 16px; }
+  .platforms strong { font-family: var(--font-display); font-weight: 400; font-size: 15px; }
 
   @media (max-width: 820px) {
     .hero { min-height: 0; padding-top: 0; }
