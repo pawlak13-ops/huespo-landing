@@ -138,7 +138,7 @@ export const es: Content = {
 
   pricing: {
     title: 'Precios: elige tu plan',
-    sub: 'Empieza con 14 días de prueba gratis. Cancela cuando quieras.',
+    sub: '14 días gratis, sin tarjeta. Eliges un plan solo si quieres seguir.',
     cycleLabel: 'Periodo de facturación',
     monthly: 'Mensual',
     yearly: 'Anual',
@@ -217,7 +217,7 @@ export const es: Content = {
       },
       {
         q: '¿Cómo funciona la prueba de 14 días?',
-        a: 'Al elegir el plan indicas una tarjeta u otro método de pago, pero el primer cargo se hace a los 14 días. Si cancelas antes, no pagas nada.',
+        a: 'Creas tu cuenta y tienes acceso completo durante 14 días, sin tarjeta. Si quieres seguir, eliges un plan e indicas una tarjeta; el primer cargo se hace igualmente al terminar los 14 días. Si no eliges plan, no pagas nada y tus propiedades quedan guardadas.',
       },
       {
         q: '¿Puedo cambiar de plan o cancelar?',

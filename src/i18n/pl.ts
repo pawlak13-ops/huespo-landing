@@ -143,7 +143,7 @@ export const pl = {
 
   pricing: {
     title: 'Cennik — wybierz plan',
-    sub: 'Zacznij od 14-dniowego bezpłatnego okresu próbnego. Anuluj w dowolnym momencie.',
+    sub: '14 dni za darmo, bez karty płatniczej. Plan wybierasz dopiero, gdy chcesz zostać.',
     cycleLabel: 'Okres rozliczenia',
     monthly: 'Miesięcznie',
     yearly: 'Rocznie',
@@ -222,7 +222,7 @@ export const pl = {
       },
       {
         q: 'Jak działa 14-dniowy okres próbny?',
-        a: 'Przy wyborze planu podajesz kartę lub inną metodę płatności, ale pierwsza opłata jest pobierana dopiero po 14 dniach. Jeśli anulujesz wcześniej, nic nie zapłacisz.',
+        a: 'Zakładasz konto i od razu masz pełny dostęp przez 14 dni, bez podawania karty. Jeśli chcesz zostać, wybierasz plan i podajesz kartę; pierwsza opłata i tak jest pobierana dopiero po zakończeniu 14 dni. Jeśli nie wybierzesz planu, nic nie płacisz, a Twoje obiekty zostają zapisane.',
       },
       {
         q: 'Czy mogę zmienić plan lub zrezygnować?',

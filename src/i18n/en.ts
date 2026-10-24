@@ -138,7 +138,7 @@ export const en: Content = {
 
   pricing: {
     title: 'Pricing: choose your plan',
-    sub: 'Start with a 14-day free trial. Cancel any time.',
+    sub: '14 days free, no card needed. Choose a plan only if you want to stay.',
     cycleLabel: 'Billing period',
     monthly: 'Monthly',
     yearly: 'Yearly',
@@ -217,7 +217,7 @@ export const en: Content = {
       },
       {
         q: 'How does the 14-day free trial work?',
-        a: "When you choose a plan you add a card or another payment method, but the first charge is only taken after 14 days. If you cancel before then, you pay nothing.",
+        a: "Create your account and get full access for 14 days, no card needed. If you want to stay, choose a plan and add a card; the first charge is still only taken when the 14 days end. If you don't choose a plan, you pay nothing and your properties stay saved.",
       },
       {
         q: 'Can I change my plan or cancel?',
