@@ -28,8 +28,8 @@ const home = LANG_PATHS[lang];
     <nav aria-label={c.footer.legal}>
       <h2 class="footer-title">{c.footer.legal}</h2>
       <ul>
-        <li><a href={LINKS.terms}>{c.footer.terms}</a></li>
-        <li><a href={LINKS.privacy}>{c.footer.privacy}</a></li>
+        <li><a href={`${LINKS.terms}?lang=${lang}`}>{c.footer.terms}</a></li>
+        <li><a href={`${LINKS.privacy}?lang=${lang}`}>{c.footer.privacy}</a></li>
         <li><a href={`mailto:${LINKS.email}`}>{c.footer.contact}</a></li>
       </ul>
     </nav>

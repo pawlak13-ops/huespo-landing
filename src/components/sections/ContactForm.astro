@@ -67,7 +67,7 @@ const f = c.form;
       <div class="field field--check">
         <input id={`f-privacy-${lang}`} name="privacy" type="checkbox" value="yes" required />
         <label for={`f-privacy-${lang}`}>
-          {f.privacyBefore}<a href={LINKS.privacy} target="_blank" rel="noopener">{f.privacyLink}</a>{f.privacyAfter}
+          {f.privacyBefore}<a href={`${LINKS.privacy}?lang=${lang}`} target="_blank" rel="noopener">{f.privacyLink}</a>{f.privacyAfter}
         </label>
         <p class="field-error" aria-live="polite"></p>
       </div>

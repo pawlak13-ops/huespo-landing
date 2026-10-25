@@ -1,6 +1,6 @@
 // =====================================================================
 // CENNIK HUESPO — jedyne miejsce, w którym zmieniasz ceny.
-// Kwoty muszą być zgodne z cenami w Paddle (aplikacja app.huespo.app).
+// Kwoty muszą być zgodne z cenami w Stripe i w aplikacji (src/lib/plans.ts w huespo-hq).
 // Zmiana ceny = zmiana jednej liczby poniżej.
 // =====================================================================
 
