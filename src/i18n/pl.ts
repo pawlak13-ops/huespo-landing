@@ -202,7 +202,7 @@ export const pl = {
     },
     liveUpdate: 'Live update',
     cta: 'Wybierz plan',
-    note: 'Ceny brutto. Płatności obsługuje Stripe. Plan zmieniasz lub anulujesz w dowolnym momencie z panelu hosta.',
+    note: 'Ceny netto (bez podatku). Płatności obsługuje Stripe. Plan zmieniasz lub anulujesz w dowolnym momencie z panelu hosta.',
   },
 
   faq: {

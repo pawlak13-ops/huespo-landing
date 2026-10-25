@@ -197,7 +197,7 @@ export const es: Content = {
     },
     liveUpdate: 'Actualización al instante',
     cta: 'Elegir plan',
-    note: 'Precios con impuestos incluidos. Los pagos los gestiona Stripe. Cambias o cancelas tu plan cuando quieras desde el panel.',
+    note: 'Precios netos (sin impuestos). Los pagos los gestiona Stripe. Cambias o cancelas tu plan cuando quieras desde el panel.',
   },
 
   faq: {

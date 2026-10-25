@@ -197,7 +197,7 @@ export const en: Content = {
     },
     liveUpdate: 'Live update',
     cta: 'Choose plan',
-    note: 'Prices include tax. Payments are handled by Stripe. Change or cancel your plan any time from your dashboard.',
+    note: 'Prices are net (excluding tax). Payments are handled by Stripe. Change or cancel your plan any time from your dashboard.',
   },
 
   faq: {
